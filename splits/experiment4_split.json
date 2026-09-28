@@ -1,0 +1,88 @@
+{
+  "experiment": 4,
+  "name": "Combined-Dataset Subject-Independent Evaluation",
+  "random_state": 42,
+  "shuffle": true,
+  "split_ratio": {
+    "development": 0.8,
+    "test": 0.2
+  },
+  "datasets": {
+    "WESAD": {
+      "development_participant_ids": [
+        "S16",
+        "S7",
+        "S10",
+        "S4",
+        "S3",
+        "S17",
+        "S6",
+        "S9",
+        "S13",
+        "S15",
+        "S5",
+        "S8"
+      ],
+      "test_participant_ids": [
+        "S11",
+        "S14",
+        "S2"
+      ],
+      "development_participant_count": 12,
+      "test_participant_count": 3
+    },
+    "Stress-Predict": {
+      "development_participant_ids": [
+        "S13",
+        "S9",
+        "S17",
+        "S10",
+        "S34",
+        "S1",
+        "S5",
+        "S18",
+        "S28",
+        "S6",
+        "S12",
+        "S2",
+        "S3",
+        "S33",
+        "S4",
+        "S31",
+        "S24",
+        "S32",
+        "S11",
+        "S23",
+        "S19",
+        "S26",
+        "S7",
+        "S21",
+        "S35",
+        "S8",
+        "S15",
+        "S29"
+      ],
+      "test_participant_ids": [
+        "S27",
+        "S14",
+        "S25",
+        "S22",
+        "S16",
+        "S30",
+        "S20"
+      ],
+      "development_participant_count": 28,
+      "test_participant_count": 7
+    }
+  },
+  "combined_counts": {
+    "development_participants": 40,
+    "test_participants": 10
+  },
+  "protocol": {
+    "participant_level_split": true,
+    "all_windows_follow_participant_assignment": true,
+    "test_participants_excluded_from_ssl_pretraining": true,
+    "participant_overlap_allowed": false
+  }
+}

@@ -1,0 +1,6 @@
+configuration,emb_dim,base_depth,matched_depth,patch_len,standard_trainable,hierarchical_trainable,standard_matched_trainable,diff_matched_vs_hierarchical,rel_diff_pct,parity_ratio
+Base Default,128,4,9,8,887234,1923782,1878594,-45188,-2.35,0.9765
+WESAD 30s,256,6,10,8,4959554,7819078,8118594,299516,3.83,1.0383
+WESAD 60s,128,3,8,16,692034,1728582,1683394,-45188,-2.61,0.9739
+Stress-Predict / Stress-ID 30s,256,6,10,8,4959554,7819078,8118594,299516,3.83,1.0383
+Stress-Predict / Stress-ID 60s,256,4,8,8,3380034,6239558,6539074,299516,4.8,1.048

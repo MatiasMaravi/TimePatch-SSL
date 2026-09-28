@@ -1,0 +1,6 @@
+
+Combined->WESAD params/test WESAD
+  accuracy              : 0.8086 ± nan  [IC95%: (nan, nan)]  n=1
+  f1                    : 0.6610 ± nan  [IC95%: (nan, nan)]  n=1
+  balanced_accuracy     : 0.7530 ± nan  [IC95%: (nan, nan)]  n=1
+  auroc                 : 0.8717 ± nan  [IC95%: (nan, nan)]  n=1

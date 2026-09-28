@@ -1,0 +1,51 @@
+{
+  "experiment": "experiment_4_combined_dataset",
+  "datasets": [
+    "WESAD",
+    "Stress-Predict / Stress-ID"
+  ],
+  "window_seconds": 60,
+  "signals": [
+    "BVP",
+    "EDA",
+    "TEMP"
+  ],
+  "target_sampling_rate_hz": 4,
+  "participant_split": {
+    "strategy": "participant_disjoint_80_20_within_each_dataset",
+    "random_seed": 42,
+    "WESAD": {
+      "total_participants": 15,
+      "development_participants": 12,
+      "test_participants": 3
+    },
+    "Stress-Predict / Stress-ID": {
+      "total_participants": 35,
+      "development_participants": 28,
+      "test_participants": 7
+    },
+    "participant_overlap_allowed": false,
+    "test_windows_used_for_training": false,
+    "test_windows_used_for_ssl_pretraining": false
+  },
+  "combined_training": {
+    "pool_development_participants_across_datasets": true,
+    "held_out_test_participants_excluded": true,
+    "validation_requirement": "Validation, if used, must contain only participants drawn from the development partition.",
+    "normalization_requirement": "Fit normalization and imputation parameters on training data only and apply unchanged to validation and held-out test data."
+  },
+  "model": {
+    "architecture": "hierarchical",
+    "selected_combined_configuration": null,
+    "status": "Not inferred from dataset-specific Optuna files. Populate from the actual Experiment 4 combined-model run before release."
+  },
+  "evaluation": {
+    "protocol": "combined_domain_subject_independent_holdout",
+    "metrics": [
+      "accuracy",
+      "f1",
+      "balanced_accuracy",
+      "auroc"
+    ]
+  }
+}

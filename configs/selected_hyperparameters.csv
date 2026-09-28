@@ -1,0 +1,5 @@
+dataset,window_seconds,selection_objective_value,patch_len,emb_dim,depth,dropout,ft_epochs,ssl_epochs,batch_size,use_ssl,random_seed,source_file
+WESAD,30,0.760887379233186,8,256,6,0.20593139006678607,7,4,16,True,42,wesad_optuna_30seg
+WESAD,60,0.7595277674408643,16,128,3,0.05587873967732661,6,10,32,True,42,wesad_optuna_60seg
+Stress-Predict / Stress-ID,30,0.7437376180590202,8,256,6,0.20593139006678607,7,4,16,True,42,Stress_ID_optuna_30seg
+Stress-Predict / Stress-ID,60,0.7262089293189584,8,256,4,0.20059047112039313,6,7,16,True,42,Stress_ID_optuna_60seg

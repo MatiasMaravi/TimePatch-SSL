@@ -1,0 +1,6 @@
+
+Combinado->STRESS params/test WESAD
+accuracy: 0.8066 ± 0.0000
+f1: 0.7389 ± 0.0000
+balanced_accuracy: 0.8395 ± 0.0000
+auroc: 0.9016 ± 0.0000

@@ -1,0 +1,52 @@
+{
+  "experiment": "experiment_2_cross_dataset_transfer",
+  "source_dataset": "Stress-Predict / Stress-ID",
+  "target_dataset": "WESAD",
+  "window_seconds": 60,
+  "signals": [
+    "BVP",
+    "EDA",
+    "TEMP"
+  ],
+  "target_sampling_rate_hz": 4,
+  "model": {
+    "architecture": "hierarchical",
+    "patch_len": 8,
+    "emb_dim": 256,
+    "depth": 4,
+    "dropout": 0.20059047112039313
+  },
+  "source_model_development": {
+    "source_train_fraction": 0.85,
+    "source_validation_fraction": 0.15,
+    "split_strategy": "stratified_source_train_validation",
+    "ssl_pretraining": true,
+    "ssl_epochs": 7,
+    "finetuning": "full_encoder_end_to_end",
+    "finetuning_epochs": 6,
+    "batch_size": 16,
+    "model_selection_metric": "source_validation_f1",
+    "random_seed": 42
+  },
+  "target_evaluation": {
+    "role": "evaluation_only",
+    "target_labels_used_for_training": false,
+    "target_labels_used_for_validation": false,
+    "target_labels_used_for_threshold_calibration": false,
+    "target_labels_used_for_model_selection": false,
+    "classification_threshold": 0.5,
+    "auroc_input": "positive_class_probability_scores",
+    "metrics": [
+      "accuracy",
+      "f1",
+      "balanced_accuracy",
+      "auroc"
+    ]
+  },
+  "hyperparameter_selection": {
+    "method": "Optuna_TPE",
+    "selection_dataset": "Stress-Predict / Stress-ID",
+    "selected_parameters_from": "Stress_ID_optuna_60seg.json",
+    "selection_objective_value": 0.7262089293189584
+  }
+}

@@ -1,0 +1,6 @@
+
+Combinado->STRESS params/test WESAD
+  accuracy              : 0.7990 ± nan  [IC95%: (nan, nan)]  n=1
+  f1                    : 0.6769 ± nan  [IC95%: (nan, nan)]  n=1
+  balanced_accuracy     : 0.7679 ± nan  [IC95%: (nan, nan)]  n=1
+  auroc                 : 0.8960 ± nan  [IC95%: (nan, nan)]  n=1

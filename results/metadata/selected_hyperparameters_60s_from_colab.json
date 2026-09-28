@@ -1,0 +1,22 @@
+{
+  "WESAD_60s": {
+    "patch_len": 8,
+    "emb_dim": 256,
+    "depth": 6,
+    "dropout": 0.20593139006678607,
+    "ft_epochs": 7,
+    "ssl_epochs": 4,
+    "batch_size": 16,
+    "use_ssl": true
+  },
+  "StressPredict_60s": {
+    "patch_len": 8,
+    "emb_dim": 256,
+    "depth": 6,
+    "dropout": 0.20593139006678607,
+    "ft_epochs": 7,
+    "ssl_epochs": 4,
+    "batch_size": 16,
+    "use_ssl": true
+  }
+}

@@ -1,0 +1,6 @@
+
+WESAD->STRESS-ID
+  accuracy              : 0.5228 ± nan  [IC95%: (nan, nan)]  n=1
+  f1                    : 0.5365 ± nan  [IC95%: (nan, nan)]  n=1
+  balanced_accuracy     : 0.5366 ± nan  [IC95%: (nan, nan)]  n=1
+  auroc                 : 0.6950 ± nan  [IC95%: (nan, nan)]  n=1

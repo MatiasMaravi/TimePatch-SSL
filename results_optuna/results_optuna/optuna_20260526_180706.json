@@ -1,0 +1,247 @@
+{
+  "best_value": 0.735647449125563,
+  "best_params": {
+    "patch_len": 16,
+    "emb_dim": 128,
+    "depth": 3,
+    "dropout": 0.06218303726628978,
+    "ft_epochs": 7,
+    "ssl_epochs": 7,
+    "batch_size": 16,
+    "use_ssl": true
+  },
+  "trials": [
+    {
+      "number": 0,
+      "value": 0.7292308088935754,
+      "params": {
+        "patch_len": 16,
+        "emb_dim": 128,
+        "depth": 3,
+        "dropout": 0.05587873967732661,
+        "ft_epochs": 6,
+        "ssl_epochs": 10,
+        "batch_size": 32,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.6158712610240733,
+        "mean_auroc": 0.6159288003993834,
+        "params": {
+          "patch_len": 16,
+          "emb_dim": 128,
+          "depth": 3,
+          "dropout": 0.05587873967732661,
+          "ft_epochs": 6,
+          "ssl_epochs": 10,
+          "batch_size": 32,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 1,
+      "value": 0.735647449125563,
+      "params": {
+        "patch_len": 16,
+        "emb_dim": 128,
+        "depth": 3,
+        "dropout": 0.06218303726628978,
+        "ft_epochs": 7,
+        "ssl_epochs": 7,
+        "batch_size": 16,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.6235987066358124,
+        "mean_auroc": 0.6086470936971383,
+        "params": {
+          "patch_len": 16,
+          "emb_dim": 128,
+          "depth": 3,
+          "dropout": 0.06218303726628978,
+          "ft_epochs": 7,
+          "ssl_epochs": 7,
+          "batch_size": 16,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 2,
+      "value": 0.7208918568937801,
+      "params": {
+        "patch_len": 8,
+        "emb_dim": 256,
+        "depth": 4,
+        "dropout": 0.20059047112039313,
+        "ft_epochs": 6,
+        "ssl_epochs": 7,
+        "batch_size": 16,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.605088489193414,
+        "mean_auroc": 0.5926793390938908,
+        "params": {
+          "patch_len": 8,
+          "emb_dim": 256,
+          "depth": 4,
+          "dropout": 0.20059047112039313,
+          "ft_epochs": 6,
+          "ssl_epochs": 7,
+          "batch_size": 16,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 3,
+      "value": 0.7286543656767067,
+      "params": {
+        "patch_len": 8,
+        "emb_dim": 256,
+        "depth": 6,
+        "dropout": 0.20593139006678607,
+        "ft_epochs": 7,
+        "ssl_epochs": 4,
+        "batch_size": 16,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.5969350687757733,
+        "mean_auroc": 0.5684733819648611,
+        "params": {
+          "patch_len": 8,
+          "emb_dim": 256,
+          "depth": 6,
+          "dropout": 0.20593139006678607,
+          "ft_epochs": 7,
+          "ssl_epochs": 4,
+          "batch_size": 16,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 4,
+      "value": 0.7185152761929362,
+      "params": {
+        "patch_len": 16,
+        "emb_dim": 256,
+        "depth": 4,
+        "dropout": 0.17238012540141584,
+        "ft_epochs": 7,
+        "ssl_epochs": 7,
+        "batch_size": 16,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.5955494406702471,
+        "mean_auroc": 0.584834893727151,
+        "params": {
+          "patch_len": 16,
+          "emb_dim": 256,
+          "depth": 4,
+          "dropout": 0.17238012540141584,
+          "ft_epochs": 7,
+          "ssl_epochs": 7,
+          "batch_size": 16,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 5,
+      "value": 0.7295431521897466,
+      "params": {
+        "patch_len": 8,
+        "emb_dim": 128,
+        "depth": 5,
+        "dropout": 0.23203107405531687,
+        "ft_epochs": 6,
+        "ssl_epochs": 5,
+        "batch_size": 32,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.6055578082749522,
+        "mean_auroc": 0.6002718492540298,
+        "params": {
+          "patch_len": 8,
+          "emb_dim": 128,
+          "depth": 5,
+          "dropout": 0.23203107405531687,
+          "ft_epochs": 6,
+          "ssl_epochs": 5,
+          "batch_size": 32,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 6,
+      "value": 0.7219523365215514,
+      "params": {
+        "patch_len": 8,
+        "emb_dim": 128,
+        "depth": 4,
+        "dropout": 0.14482009912639715,
+        "ft_epochs": 6,
+        "ssl_epochs": 9,
+        "batch_size": 32,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.6128786398274992,
+        "mean_auroc": 0.6158421948335047,
+        "params": {
+          "patch_len": 8,
+          "emb_dim": 128,
+          "depth": 4,
+          "dropout": 0.14482009912639715,
+          "ft_epochs": 6,
+          "ssl_epochs": 9,
+          "batch_size": 32,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    },
+    {
+      "number": 7,
+      "value": 0.7343190909306205,
+      "params": {
+        "patch_len": 8,
+        "emb_dim": 256,
+        "depth": 5,
+        "dropout": 0.1876716486494271,
+        "ft_epochs": 9,
+        "ssl_epochs": 4,
+        "batch_size": 16,
+        "use_ssl": true
+      },
+      "user_attrs": {
+        "mean_accuracy": 0.6115718413394249,
+        "mean_auroc": 0.5745427442069704,
+        "params": {
+          "patch_len": 8,
+          "emb_dim": 256,
+          "depth": 5,
+          "dropout": 0.1876716486494271,
+          "ft_epochs": 9,
+          "ssl_epochs": 4,
+          "batch_size": 16,
+          "use_ssl": true
+        }
+      },
+      "state": "TrialState.COMPLETE"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+
+Combinado->STRESS params/test STRESS-ID
+  accuracy              : 0.8689 ± nan  [IC95%: (nan, nan)]  n=1
+  f1                    : 0.8802 ± nan  [IC95%: (nan, nan)]  n=1
+  balanced_accuracy     : 0.8792 ± nan  [IC95%: (nan, nan)]  n=1
+  auroc                 : 0.9534 ± nan  [IC95%: (nan, nan)]  n=1

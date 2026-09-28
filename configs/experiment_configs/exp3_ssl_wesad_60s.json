@@ -1,0 +1,68 @@
+{
+  "experiment": "experiment_3_within_dataset_ssl",
+  "dataset": "WESAD",
+  "window_seconds": 60,
+  "signals": [
+    "BVP",
+    "EDA",
+    "TEMP"
+  ],
+  "target_sampling_rate_hz": 4,
+  "model": {
+    "architecture": "hierarchical",
+    "patch_len": 16,
+    "emb_dim": 128,
+    "depth": 3,
+    "dropout": 0.05587873967732661
+  },
+  "ssl_pretraining": {
+    "enabled": true,
+    "epochs": 10,
+    "objective": "NT-Xent",
+    "temperature": 0.2,
+    "augmentations": {
+      "gaussian_noise": {
+        "probability": 0.8,
+        "sigma": 0.02
+      },
+      "scaling": {
+        "probability": 0.5,
+        "range": [
+          0.9,
+          1.1
+        ]
+      },
+      "temporal_shift": {
+        "probability": 0.4,
+        "maximum_samples": 5
+      },
+      "channel_masking": {
+        "probability": 0.3,
+        "masked_samples_range": [
+          5,
+          14
+        ]
+      }
+    }
+  },
+  "supervised_finetuning": {
+    "epochs": 6,
+    "batch_size": 32,
+    "encoder": "fine_tuned_end_to_end",
+    "random_seed": 42
+  },
+  "evaluation": {
+    "protocol": "within_dataset_subject_independent",
+    "metrics": [
+      "accuracy",
+      "f1",
+      "balanced_accuracy",
+      "auroc"
+    ]
+  },
+  "hyperparameter_selection": {
+    "method": "Optuna_TPE",
+    "selected_parameters_from": "wesad_optuna_60seg.json",
+    "selection_objective_value": 0.7595277674408643
+  }
+}

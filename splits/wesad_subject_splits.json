@@ -1,0 +1,46 @@
+{
+  "dataset": "WESAD",
+  "evaluation_unit": "participant",
+  "subject_independent": true,
+  "random_state": 42,
+  "shuffle": true,
+  "participant_ids_in_split_input_order": [
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S9",
+    "S10",
+    "S11",
+    "S13",
+    "S14",
+    "S15",
+    "S16",
+    "S17"
+  ],
+  "development_participant_ids": [
+    "S16",
+    "S7",
+    "S10",
+    "S4",
+    "S3",
+    "S17",
+    "S6",
+    "S9",
+    "S13",
+    "S15",
+    "S5",
+    "S8"
+  ],
+  "test_participant_ids": [
+    "S11",
+    "S14",
+    "S2"
+  ],
+  "development_participant_count": 12,
+  "test_participant_count": 3,
+  "participant_overlap": []
+}
