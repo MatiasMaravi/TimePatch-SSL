@@ -18,13 +18,11 @@ results/tables/
 ├── audit_point7_tables_consistency_summary.csv         # Point 7: Master consistency summary (Tables 2, 3, 4, 6, 7)
 ├── audit_point7_positive_class_verification.csv        # Point 7: Positive-class (y=1 Stress) verification
 │
-├── audit_point1_threshold_sweep.csv                    # Point 1 / Table S1: Cross-dataset threshold sweep
-├── audit_point1_participant_metrics.csv                # Point 1 / Table S2: Cross-dataset per-subject metrics (n=15)
-├── audit_point2_per_class_metrics.csv                  # Point 2 / Table S3: Per-class Precision/Recall/F1 & specificity
-├── audit_point2_confusion_matrices.csv                 # Point 2 / Table S4: Exact confusion matrix counts (TN, FP, FN, TP)
-├── audit_point3_learning_curves_summary.csv            # Point 3 / Table S5: SSL pretraining & convergence dynamics
-├── audit_point4_multisplit_runs.csv                    # Point 4: Individual K=5 GroupShuffleSplit runs
-├── audit_point4_multisplit_summary.csv                 # Point 4 / Table S6: K=5 multi-split Mean ± SD & 95% CI
+├── audit_point1_auroc_table.csv                        # Point 1 / Table S1: Cross-dataset p_stress vs (1-p_stress) AUROC audit
+├── audit_point2_per_class_metrics.csv                  # Point 2 / Table S2: Per-class Precision/Recall/F1, Specificity & TN/FP/FN/TP
+├── audit_point2_always_stress_comparison.csv           # Point 2 / Table S3: Comparison vs. trivial Always-Stress baseline
+├── audit_point3_convergence_summary.csv                # Point 3 / Table S4: Standard vs. Hierarchical convergence & stability
+├── audit_point4_fairness_hyperparameters_budget.csv    # Point 4 / Table S5: Training fairness, Optuna budget & parameter audit
 │
 ├── source_result_summaries/                            # Raw output logs from original Google Colab runs
 │   ├── supervised_wesad_60s.txt                        # Exp 1: Supervised WESAD (60s)

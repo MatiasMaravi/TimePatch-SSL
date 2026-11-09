@@ -95,10 +95,10 @@ TimePatch-SSL/
 │   └── per_class_metrics.py
 │
 ├── experiments_audit/                         # Reviewer 3 Points 1–4 & Point 7 Audit Suite
-│   ├── audit_point1.py                        # Point 1: Cross-dataset probability, ROC & threshold audit
-│   ├── audit_point2.py                        # Point 2: Per-class metrics & confusion matrix audit
-│   ├── audit_point3.py                        # Point 3: Learning curves & SSL pretraining audit
-│   ├── audit_point4.py                        # Point 4: Multi-split sensitivity (K=5 GroupShuffleSplit)
+│   ├── audit_point1.py                        # Point 1: Cross-dataset anomalous AUROC (0.1049) & ROC audit
+│   ├── audit_point2.py                        # Point 2: Per-class metrics, confusion matrices & Always-Stress audit
+│   ├── audit_point3.py                        # Point 3: Standard vs. Hierarchical convergence & stability curves
+│   ├── audit_point4.py                        # Point 4: Training fairness, Optuna budget & leakage audit
 │   └── audit_point7_master_consistency.py     # Point 7: Master consistency audit (Tables 2, 3, 4, 6, 7)
 │
 ├── ablation_matched_capacity/                 # Reviewer 3 Points 5 & 6: Capacity-matched ablation suite
@@ -135,13 +135,11 @@ TimePatch-SSL/
 │   │   ├── reviewer3_evidence_traceability_matrix.csv
 │   │   ├── audit_point7_tables_consistency_summary.csv
 │   │   ├── audit_point7_positive_class_verification.csv
-│   │   ├── audit_point1_threshold_sweep.csv
-│   │   ├── audit_point1_participant_metrics.csv
+│   │   ├── audit_point1_auroc_table.csv
 │   │   ├── audit_point2_per_class_metrics.csv
-│   │   ├── audit_point2_confusion_matrices.csv
-│   │   ├── audit_point3_learning_curves_summary.csv
-│   │   ├── audit_point4_multisplit_runs.csv
-│   │   ├── audit_point4_multisplit_summary.csv
+│   │   ├── audit_point2_always_stress_comparison.csv
+│   │   ├── audit_point3_convergence_summary.csv
+│   │   ├── audit_point4_fairness_hyperparameters_budget.csv
 │   │   ├── source_result_summaries/           # Raw Colab logs for Exp 1–4
 │   │   └── ablation_matched_capacity/         # Capacity-matched ablation tables (WESAD & Stress-Predict)
 │   │       ├── README.md                      # Detailed ablation tables summary
@@ -159,10 +157,10 @@ TimePatch-SSL/
 │   │       └── ablation_matched_capacity_participants_wesad_30s.csv
 │   └── figures/
 │       ├── README.md
-│       ├── audit_point1_roc_and_cm.png
-│       ├── audit_point1_probability_distributions.png
+│       ├── audit_point1_roc_curve.png
 │       ├── audit_point2_confusion_matrices.png
-│       ├── audit_point3_learning_curves.png
+│       ├── audit_point3_loss_curves.png
+│       ├── audit_point3_val_metrics_curves.png
 │       ├── ablation_matched_capacity_stress_predict.{png,pdf}
 │       ├── ablation_matched_capacity_all_datasets.{png,pdf}
 │       ├── ablation_paired_differences_stress_predict.{png,pdf}

@@ -216,14 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-TimeMAE/
-notebooks/TimeMAE/
 
 # Project Specific
 data/
 *.pkl
 *.npy
 *.npz
+!data_cache/*.npz
 .venv/
 venv/
 ENV/

@@ -31,20 +31,18 @@ results/
 │   ├── reviewer3_evidence_traceability_matrix.csv      # Point 7: Complete traceability matrix (Points 1–7)
 │   ├── audit_point7_tables_consistency_summary.csv     # Point 7: Unified audit of Tables 2, 3, 4, 6 & 7 (50 rows)
 │   ├── audit_point7_positive_class_verification.csv    # Point 7: Programmatic verification of y=1 (Stress)
-│   ├── audit_point1_threshold_sweep.csv                # Point 1: Threshold calibration sweep (Table S1)
-│   ├── audit_point1_participant_metrics.csv            # Point 1: Subject-level cross-dataset metrics (Table S2)
-│   ├── audit_point2_per_class_metrics.csv              # Point 2: Per-class Precision/Recall/F1 (Table S3)
-│   ├── audit_point2_confusion_matrices.csv             # Point 2: Confusion matrix counts TN, FP, FN, TP (Table S4)
-│   ├── audit_point3_learning_curves_summary.csv        # Point 3: SSL vs. Supervised convergence summary (Table S5)
-│   ├── audit_point4_multisplit_runs.csv                # Point 4: Individual K=5 GroupShuffleSplit runs
-│   ├── audit_point4_multisplit_summary.csv             # Point 4: Multi-split Mean ± SD & 95% CI summary (Table S6)
+│   ├── audit_point1_auroc_table.csv                    # Point 1: Cross-dataset p_stress vs (1-p_stress) AUROC audit (Table S1)
+│   ├── audit_point2_per_class_metrics.csv              # Point 2: Per-class Precision/Recall/F1 & confusion matrices (Table S2)
+│   ├── audit_point2_always_stress_comparison.csv       # Point 2: Comparison vs. trivial Always-Stress baseline (Table S3)
+│   ├── audit_point3_convergence_summary.csv            # Point 3: Standard vs. Hierarchical convergence summary (Table S4)
+│   ├── audit_point4_fairness_hyperparameters_budget.csv # Point 4: Fairness, Optuna budget & zero-leakage audit (Table S5)
 │   ├── source_result_summaries/               # 18 raw execution logs from Google Colab
 │   └── ablation_matched_capacity/             # Capacity-Matched Ablation Suite (Points 5 & 6)
 │       ├── README.md                          # Full scientific summary of the ablation study
-│       ├── table7_extended_ablation_summary.csv # Extended Table 7 across WESAD & Stress-Predict
+│       ├── table7_extended_ablation_summary.csv # Extended Table 7 across WESAD & Stress-Predict (Table S6)
 │       ├── ablation_matched_capacity_parameters.csv # Parameter parity audit (-2.61%, +3.83%, +4.80% diff)
 │       ├── ablation_matched_capacity_paired_comparisons.csv # Paired Wilcoxon tests
-│       ├── ablation_matched_capacity_statistical_analysis.csv # Point 6: Full paired stats (CIs, r_rb, d_z, Holm)
+│       ├── ablation_matched_capacity_statistical_analysis.csv # Point 6: Full paired stats (CIs, r_rb, d_z, Holm) (Table S7)
 │       ├── ablation_matched_capacity_results_stress_predict_60s.csv       # Stress-Predict 60s summary
 │       ├── ablation_matched_capacity_participants_stress_predict_60s.csv  # Stress-Predict 60s (n=33)
 │       ├── ablation_matched_capacity_results_stress_predict_30s.csv       # Stress-Predict 30s summary
@@ -56,10 +54,10 @@ results/
 │
 └── figures/                                   # Supplementary Material figures (Figures S1–S8)
     ├── README.md                              # Complete catalog & captions for Figures S1–S8
-    ├── audit_point1_roc_and_cm.png            # Figure S1: Cross-dataset ROC curve & confusion matrix
-    ├── audit_point1_probability_distributions.png # Figure S2: Predicted probability distributions & threshold shift
-    ├── audit_point2_confusion_matrices.png    # Figure S3: Normalized confusion matrices across Exp 2, 3 & 4
-    ├── audit_point3_learning_curves.png       # Figure S4: SSL vs. Supervised learning & validation F1 curves
+    ├── audit_point1_roc_curve.png             # Figure S1: Cross-dataset ROC curve (p_stress vs 1-p_stress)
+    ├── audit_point2_confusion_matrices.png    # Figure S2: 12-panel confusion matrices across Exp 1, 2 & 4
+    ├── audit_point3_loss_curves.png           # Figure S3: Train & validation cross-entropy loss curves
+    ├── audit_point3_val_metrics_curves.png    # Figure S4: Validation F1 & Balanced Accuracy trajectories
     ├── ablation_matched_capacity_stress_predict.{png,pdf} # Figure S5: Stress-Predict 3-model ablation (30s & 60s)
     ├── ablation_matched_capacity_all_datasets.{png,pdf}   # Figure S6: 4-panel ablation across Stress-Predict & WESAD
     ├── ablation_paired_differences_stress_predict.{png,pdf} # Figure S7: Subject-level paired Δ distributions (n=33)
