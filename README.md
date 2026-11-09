@@ -94,12 +94,32 @@ TimePatch-SSL/
 │   ├── parameter_counts.py
 │   └── per_class_metrics.py
 │
-├── ablation_matched_capacity/                 # Reviewer Point 5 & Reviewer 3: Capacity-matched ablation suite
+├── experiments_audit/                         # Reviewer 3 Points 1–4 & Point 7 Audit Suite
+│   ├── audit_point1.py                        # Point 1: Cross-dataset probability, ROC & threshold audit
+│   ├── audit_point2.py                        # Point 2: Per-class metrics & confusion matrix audit
+│   ├── audit_point3.py                        # Point 3: Learning curves & SSL pretraining audit
+│   ├── audit_point4.py                        # Point 4: Multi-split sensitivity (K=5 GroupShuffleSplit)
+│   └── audit_point7_master_consistency.py     # Point 7: Master consistency audit (Tables 2, 3, 4, 6, 7)
+│
+├── ablation_matched_capacity/                 # Reviewer 3 Points 5 & 6: Capacity-matched ablation suite
 │   ├── README.md                              # Scientific rationale & execution guide
 │   ├── models.py                              # StandardMatchedTransformer & matched depth logic
 │   ├── verify_capacity.py                     # Parameter parity verification script
-│   ├── run_ablation.py                        # LOSO 3-model ablation runner (WESAD & Stress-Predict)
-│   └── generate_deliverables.py               # Extended Table 7, Wilcoxon tests & figure generator
+│   ├── run_ablation.py                        # LOGO 3-model ablation runner (WESAD & Stress-Predict)
+│   ├── generate_deliverables.py               # Extended Table 7 & comparative figure generator
+│   └── statistical_analysis.py                # Point 6: Paired Wilcoxon, t/bootstrap CIs, r_rb, d_z & plots
+│
+├── data_cache/                                # Preprocessed portable window caches (.npz) for fast reproduction
+│   ├── wesad_30s.npz
+│   ├── wesad_60s.npz
+│   ├── stress_predict_30s.npz
+│   └── stress_predict_60s.npz
+│
+├── docs/                                      # Reviewer 3 Technical Reports & Supplementary Material Guides
+│   ├── reviewer_3_master_response_and_traceability.md
+│   ├── reviewer_3_experiments_report_points_1_to_4.md
+│   ├── reviewer_3_point5_and_6_ablation_statistical_report.md
+│   └── supplementary_material_figures_and_tables_guide.md
 │
 ├── results/
 │   ├── README.md                              # Global results overview & navigation guide
@@ -107,16 +127,28 @@ TimePatch-SSL/
 │   │   └── selected_hyperparameters_60s_from_colab.json
 │   ├── predictions/
 │   │   ├── participant_metrics_60s_from_colab.csv
-│   │   └── table4_statistics_60s_from_colab.csv
+│   │   ├── table4_statistics_60s_from_colab.csv
+│   │   └── audit_point1_stresspredict_to_wesad_30s_standard.csv
 │   ├── tables/
-│   │   ├── README.md                          # Tables guide (Manuscript vs. Ablation)
+│   │   ├── README.md                          # Tables guide (Manuscript, Audit & Ablation)
 │   │   ├── reported_metrics_summary.csv       # Unified summary of manuscript Exp 1–4
+│   │   ├── reviewer3_evidence_traceability_matrix.csv
+│   │   ├── audit_point7_tables_consistency_summary.csv
+│   │   ├── audit_point7_positive_class_verification.csv
+│   │   ├── audit_point1_threshold_sweep.csv
+│   │   ├── audit_point1_participant_metrics.csv
+│   │   ├── audit_point2_per_class_metrics.csv
+│   │   ├── audit_point2_confusion_matrices.csv
+│   │   ├── audit_point3_learning_curves_summary.csv
+│   │   ├── audit_point4_multisplit_runs.csv
+│   │   ├── audit_point4_multisplit_summary.csv
 │   │   ├── source_result_summaries/           # Raw Colab logs for Exp 1–4
 │   │   └── ablation_matched_capacity/         # Capacity-matched ablation tables (WESAD & Stress-Predict)
 │   │       ├── README.md                      # Detailed ablation tables summary
 │   │       ├── table7_extended_ablation_summary.csv
 │   │       ├── ablation_matched_capacity_parameters.csv
 │   │       ├── ablation_matched_capacity_paired_comparisons.csv
+│   │       ├── ablation_matched_capacity_statistical_analysis.csv
 │   │       ├── ablation_matched_capacity_results_stress_predict_60s.csv
 │   │       ├── ablation_matched_capacity_participants_stress_predict_60s.csv
 │   │       ├── ablation_matched_capacity_results_stress_predict_30s.csv
@@ -127,8 +159,14 @@ TimePatch-SSL/
 │   │       └── ablation_matched_capacity_participants_wesad_30s.csv
 │   └── figures/
 │       ├── README.md
-│       ├── ablation_matched_capacity_stress_predict.png
-│       └── ablation_matched_capacity_all_datasets.png
+│       ├── audit_point1_roc_and_cm.png
+│       ├── audit_point1_probability_distributions.png
+│       ├── audit_point2_confusion_matrices.png
+│       ├── audit_point3_learning_curves.png
+│       ├── ablation_matched_capacity_stress_predict.{png,pdf}
+│       ├── ablation_matched_capacity_all_datasets.{png,pdf}
+│       ├── ablation_paired_differences_stress_predict.{png,pdf}
+│       └── ablation_paired_differences_summary.{png,pdf}
 │
 └── notebooks/
     └── original_colab.ipynb
@@ -531,6 +569,49 @@ python ablation_matched_capacity/run_ablation.py --dataset wesad --window-second
 
 # 5. Generate Extended Table 7, paired Wilcoxon comparisons, and comparative plots
 python ablation_matched_capacity/generate_deliverables.py
+
+# 6. Run complete paired statistical analysis (CIs, bootstrap, effect sizes, paired difference figures)
+python ablation_matched_capacity/statistical_analysis.py
+```
+
+## Reviewer 3 Audit & Reproducibility Suite (Points 1–7)
+
+To ensure complete transparency, positive-class consistency, and end-to-end reproducibility across Manuscript **Tables 2, 3, 4, 6, and 7**, the repository includes an automated 7-point audit suite (`experiments_audit/` and `ablation_matched_capacity/`), portable preprocessed window caches (`data_cache/*.npz`), and publication-ready Supplementary Material guides (`docs/`).
+
+### Positive-Class & Evaluation Convention (Verified Across All Scripts)
+- **Positive Class:** `y = 1` (**Stress**) across all datasets (`WESAD` and `Stress-Predict`), protocols (Experiments 1–4), and audits (Points 1–7).
+- **Predicted Probability:** `p_stress = torch.softmax(logits, dim=1)[:, 1]`, verified programmatically by [`experiments_audit/audit_point7_master_consistency.py`](experiments_audit/audit_point7_master_consistency.py) and exported in [`results/tables/audit_point7_positive_class_verification.csv`](results/tables/audit_point7_positive_class_verification.csv).
+- **Default Decision Threshold:** $\tau = 0.50$ (`y_pred = (p_stress >= 0.50).astype(int)`).
+- **Seeds & Determinism:** Base random seed `42` (`set_seed(42)`), deterministic per-participant fold seeds (`seed + fold_idx`), and `GroupShuffleSplit(n_splits=5, test_size=0.20, random_state=42)` for multi-split sensitivity analysis.
+
+### Master Traceability & Reproduction Commands (Points 1–7)
+
+See [`docs/reviewer_3_master_response_and_traceability.md`](docs/reviewer_3_master_response_and_traceability.md) and [`results/tables/reviewer3_evidence_traceability_matrix.csv`](results/tables/reviewer3_evidence_traceability_matrix.csv) for the full mapping between Reviewer 3's comments and repository deliverables:
+
+```bash
+# Point 1: Cross-dataset probability calibration, ROC curve, and threshold sweep (Table 2 audit)
+python experiments_audit/audit_point1.py
+
+# Point 2: Per-class metrics (Precision/Recall/F1 for Non-Stress & Stress) and confusion matrices (Tables 2, 3, 6)
+python experiments_audit/audit_point2.py
+
+# Point 3: SSL pretraining & fine-tuning learning curves (Experiment 3 / Table 3)
+python experiments_audit/audit_point3.py
+
+# Point 4: Multi-split sensitivity analysis (K=5 subject-grouped splits, Experiment 4 / Table 6)
+python experiments_audit/audit_point4.py
+
+# Point 5: Capacity-matched LOGO ablation on Stress-Predict & WESAD (Extended Table 7)
+python ablation_matched_capacity/verify_capacity.py
+python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 60 --device cuda
+python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 30 --device cuda
+python ablation_matched_capacity/generate_deliverables.py
+
+# Point 6: Paired statistical analysis (Wilcoxon, Student-t & bootstrap 95% CIs, r_rb, Cohen's d_z, Figures S7–S8)
+python ablation_matched_capacity/statistical_analysis.py
+
+# Point 7: Master consistency audit across Tables 2, 3, 4, 6, 7 & positive-class verification
+python experiments_audit/audit_point7_master_consistency.py
 ```
 
 ## Running the Experiments

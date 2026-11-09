@@ -1,0 +1,10 @@
+Component_Type,File,Positive_Class_Definition,Probability_Formula,Decision_Threshold,Verified,Notes
+Source Code Module,src/datasets.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,src/train.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,src/evaluate.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,analysis/table2_audit.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,ablation_matched_capacity/run_ablation.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,experiments_audit/audit_point1.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,experiments_audit/audit_point2.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Source Code Module,experiments_audit/audit_point3.py,"y = 1 (Stress), y = 0 (Non-Stress)","softmax(logits)[:, 1]",0.5,True,Confirmed positive class index 1 and threshold 0.5
+Window-Level Predictions CSV,results/predictions/audit_point1_stresspredict_to_wesad_30s_standard.csv,"y in [0, 1] (n=2188, stress=656)",p_stress + p_inverted == 1.0 (True),0.5,True,"AUROC(p_stress)=0.4844, AUROC(1-p)=0.5156, sum=1.0000"
