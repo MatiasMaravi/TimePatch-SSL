@@ -228,3 +228,5 @@ venv/
 ENV/
 env/
 .ipynb_checkpoints/
+
+Sensors_*.pdf
