@@ -2,8 +2,8 @@
 
 This directory organizes all tabular data, quantitative summaries, statistical analyses, and audit verification tables of the **TimePatch-SSL** project into three categories:
 1. **Manuscript Benchmark Results** (Original Experiments 1–4 from Colab, Tables 2, 3, 4, and 6)
-2. **Reviewer 3 Audit & Reproducibility Tables (Points 1–4 & Point 7)** (Cross-dataset calibration, per-class metrics, confusion matrices, SSL learning curves, $K=5$ multi-split sensitivity, positive-class verification, and master consistency audit)
-3. **Reviewer 3 Matched-Capacity Ablation & Paired Statistical Analysis (Points 5 & 6)** (`Standard`, `Hierarchical`, and `Standard-Matched` across **WESAD** and **Stress-Predict**)
+2. **Diagnostic & Reproducibility Audit Tables** (Cross-dataset calibration, per-class metrics, confusion matrices, convergence trajectories, training fairness, positive-class verification, and master consistency audit)
+3. **Matched-Capacity Ablation & Paired Statistical Analysis** (`Standard`, `Hierarchical`, and `Standard-Matched` across **WESAD** and **Stress-Predict**)
 
 ---
 
@@ -14,9 +14,9 @@ results/tables/
 ├── README.md                                           # This navigation guide
 │
 ├── reported_metrics_summary.csv                        # Unified summary of Experiments 1–4 from manuscript
-├── reviewer3_evidence_traceability_matrix.csv          # Point 7: Complete traceability matrix (Points 1–7)
-├── audit_point7_tables_consistency_summary.csv         # Point 7: Master consistency summary (Tables 2, 3, 4, 6, 7)
-├── audit_point7_positive_class_verification.csv        # Point 7: Positive-class (y=1 Stress) verification
+├── experimental_evidence_traceability_matrix.csv       # Complete traceability matrix (Audits 1–7)
+├── audit_point7_tables_consistency_summary.csv         # Master consistency summary (Tables 2, 3, 4, 6, 7)
+├── audit_point7_positive_class_verification.csv        # Positive-class (y=1 Stress) verification
 │
 ├── audit_point1_auroc_table.csv                        # Point 1 / Table S1: Cross-dataset p_stress vs (1-p_stress) AUROC audit
 ├── audit_point2_per_class_metrics.csv                  # Point 2 / Table S2: Per-class Precision/Recall/F1, Specificity & TN/FP/FN/TP
@@ -59,12 +59,12 @@ results/tables/
   Unifies 50 rows across Manuscript **Tables 2, 3, 4, 6, and 7**, cross-checking reported manuscript metrics against the repository's audit and ablation regenerations.
 - **[`audit_point7_positive_class_verification.csv`](./audit_point7_positive_class_verification.csv)**:
   Confirms across all 9 source/audit modules and prediction logs that `y = 1` (**Stress**) is consistently treated as the positive class (`p_stress = softmax(logits)[:, 1]`, default threshold `0.50`).
-- **[`reviewer3_evidence_traceability_matrix.csv`](./reviewer3_evidence_traceability_matrix.csv)**:
-  Links each of Reviewer 3's 7 requirements (`Points 1–7`) to the exact script, CSV table, Supplementary figure, and manuscript section.
+- **[`experimental_evidence_traceability_matrix.csv`](./experimental_evidence_traceability_matrix.csv)**:
+  Links each of the 7 diagnostic audits and ablation studies (`Points 1–7`) to the exact script, CSV table, Supplementary figure, and manuscript section.
 
 ---
 
-## 2. Reviewer 3 Audit Tables (Points 1–4, Tables S1–S6)
+## 2. Diagnostic Audit Tables (Points 1–4, Tables S1–S5)
 
 - **[`audit_point1_threshold_sweep.csv`](./audit_point1_threshold_sweep.csv)** & **[`audit_point1_participant_metrics.csv`](./audit_point1_participant_metrics.csv)**:
   Explain the Table 2 cross-dataset discrepancy (`Stress-Predict → WESAD`, 30s `Standard`): high ranking discrimination ($\text{AUROC} = 0.8707$) coexists with low thresholded F1 ($0.0725$ at $\tau = 0.50$) due to target-domain probability shift ($p_{\text{stress}} \in [0.055, 0.575]$), whereas recalibrating to $\tau^* = 0.167$ recovers $\text{F1} = 0.8229$.

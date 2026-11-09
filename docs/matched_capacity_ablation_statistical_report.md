@@ -1,4 +1,4 @@
-# Reporte Experimental y Estadístico: Ablación Capacity-Matched en Stress-Predict y WESAD (Puntos 5 y 6 — Reviewer 3)
+# Reporte Experimental y Estadístico: Ablación Capacity-Matched en Stress-Predict y WESAD (Puntos 5 y 6)
 
 **Proyecto:** TimePatch-SSL — Contrastive Self-Supervised Learning with Hierarchical Time-Patch Transformers for Multimodal Stress Detection  
 **Protocolo Evaluado:** Experiment 1 — Clasificación supervisada con validación Leave-One-Group-Out (LOGO) por participante  
@@ -11,12 +11,9 @@
 
 ---
 
-## 1. Solicitud del Revisor 3 y Objetivos
+## 1. Motivación Metodológica y Objetivos
 
-> **Reviewer 3 — Objection 1 (Point 5 & 6):**  
-> *"1) The capacity-matched ablation (§4.6, Table 7) is reported for WESAD only. On WESAD the Standard–Hierarchical differences are small and change sign across window lengths and training conditions, so there is little for a capacity control to explain. The paper's clearest architectural result is on Stress-Predict (Tables 2, 4 and 6). Please run the Standard-Matched control on Stress-Predict, at least under the Experiment 1 protocol. Until then, please restrict the statement that the ablation 'reduces parameter count as a sufficient explanation for the observed differences'."*
-
-Para responder rigurosamente a esta objeción:
+Para aislar el aporte arquitectónico de la representación jerárquica intra-parche frente al número total de parámetros entrenables tanto en **WESAD** como en **Stress-Predict**:
 1. **Fase 5 (Experimento de Ablación en Stress-Predict):** Ejecutamos el control `Standard-Matched` junto con `Standard` y `Hierarchical` en **Stress-Predict** (30 s y 60 s) bajo el protocolo **Experiment 1** (validación LOGO por participante, normalización robusta por sujeto `median/IQR` y los mismos hiperparámetros seleccionados por Optuna).
 2. **Fase 6 (Análisis Estadístico Pareado):** Evaluamos las diferencias emparejadas sujeto a sujeto ($\Delta_i = A_i - B_i$) entre `Hierarchical vs. Standard-Matched`, `Hierarchical vs. Standard` y `Standard-Matched vs. Standard`, reportando intervalos de confianza al 95% (paramétricos $t$ de Student y no paramétricos por Bootstrap), tamaños del efecto ($r_{\text{rb}}$ de rango biserial y $d_z$ de Cohen), pruebas de rangos con signo de Wilcoxon de dos colas y correcciones por comparaciones múltiples (Bonferroni y Holm-Bonferroni).
 
@@ -139,7 +136,7 @@ Para cada participante $i \in \{1, \dots, n\}$ se calcula la diferencia pareada 
 
 ## 5. Interpretación Científica (Sin Atribuciones Causales No Demostradas)
 
-De acuerdo con los criterios metodológicos solicitados por el **Reviewer 3**, la evidencia estadística pareada conduce a las siguientes conclusiones objetivas y libres de sobre-atribución causal:
+La evidencia estadística pareada conduce a las siguientes conclusiones objetivas y libres de sobre-atribución causal:
 
 ### 5.1 ¿Respalda la evidencia del Experimento 1 una ventaja sistemática de `Hierarchical`?
 - **No bajo el protocolo supervisado LOGO desde cero (Experiment 1).** En las cuatro configuraciones evaluadas (Stress-Predict 30 s y 60 s con $n=33$; WESAD 30 s y 60 s con $n=15$), todos los intervalos de confianza al 95% para las diferencias pareadas $\Delta(\text{Hierarchical} - \text{Standard-Matched})$ y $\Delta(\text{Hierarchical} - \text{Standard})$ incluyen el cero ($0.0000$).
@@ -156,6 +153,5 @@ $$\underbrace{\Delta(\text{Hierarchical} - \text{Standard})}_{\text{Diferencia T
    - Las diferencias medias entre los tres modelos son inferiores a $0.009$ puntos en Accuracy, F1 y Balanced Accuracy ($\bar{\Delta}_{\text{F1}}(\text{Hier} - \text{Matched}) = -0.0029$, $r_{\text{rb}} = -0.177$, $p_{\text{raw}} = 0.4209$; $\bar{\Delta}_{\text{F1}}(\text{Hier} - \text{Standard}) = +0.0054$, $r_{\text{rb}} = +0.090$, $p_{\text{raw}} = 0.6830$). Los tamaños del efecto son despreciables a pequeños ($|r_{\text{rb}}| \le 0.225$, $|d_z| \le 0.238$), indicando equivalencia práctica bajo entrenamiento supervisado directo en ventanas de 60 s.
 
 ### 5.3 Restricción Expresa de Afirmaciones Causales en el Manuscrito (§4.6)
-En consonancia con la observación del Revisor 3:
 1. **Lo que la ablación sí demuestra:** Aumentar el número de parámetros mediante mayor profundidad global (`Standard-Matched`) no produce mejoras sistemáticas bajo entrenamiento supervisado LOGO en WESAD ni en Stress-Predict (e incluso penaliza ligeramente el desempeño en ventanas de 30 s en Stress-Predict).
 2. **Lo que no debe afirmarse a partir de esta ablación:** Dado que bajo el protocolo supervisado desde cero (Experiment 1 con normalización robusta por participante) las diferencias entre `Standard`, `Hierarchical` y `Standard-Matched` son pequeñas y estadísticamente no significativas tras corrección por multiplicidad, **no se puede atribuir una ventaja sistemática al codificador `Hierarchical` basándose únicamente en el Experimento 1**, ni extrapolar directamente este control supervisado como explicación causal suficiente de las diferencias observadas en regímenes con preentrenamiento auto-supervisado (SSL) o transferencia entre dominios. El texto de la Sección 4.6 se restringe explícitamente a este alcance.

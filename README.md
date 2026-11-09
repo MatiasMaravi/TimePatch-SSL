@@ -39,8 +39,8 @@ patches. Three encoder variants are evaluated:
     patch projection but scales global Transformer depth to match the trainable
     parameter capacity of the Hierarchical encoder (exact relative differences of
     **-2.61%** on WESAD 60s, **+3.83%** on WESAD 30s and Stress-Predict 30s, and
-    **+4.80%** on Stress-Predict 60s). Introduced specifically to address
-    **Reviewer Point 5** and **Reviewer 3's follow-up** (matched-capacity ablation across both WESAD and Stress-Predict).
+    **+4.80%** on Stress-Predict 60s), isolating the effect of hierarchical
+    intra-patch representation from total parameter count across both WESAD and Stress-Predict.
 
 For SSL experiments, two independently augmented views of each
 physiological window are encoded and optimized using the established
@@ -94,20 +94,20 @@ TimePatch-SSL/
 │   ├── parameter_counts.py
 │   └── per_class_metrics.py
 │
-├── experiments_audit/                         # Reviewer 3 Points 1–4 & Point 7 Audit Suite
-│   ├── audit_point1.py                        # Point 1: Cross-dataset anomalous AUROC (0.1049) & ROC audit
+├── experiments_audit/                         # Extended Diagnostic Audits & Master Consistency Suite
+│   ├── audit_point1.py                        # Point 1: Cross-dataset AUROC & probability-inversion audit
 │   ├── audit_point2.py                        # Point 2: Per-class metrics, confusion matrices & Always-Stress audit
 │   ├── audit_point3.py                        # Point 3: Standard vs. Hierarchical convergence & stability curves
 │   ├── audit_point4.py                        # Point 4: Training fairness, Optuna budget & leakage audit
 │   └── audit_point7_master_consistency.py     # Point 7: Master consistency audit (Tables 2, 3, 4, 6, 7)
 │
-├── ablation_matched_capacity/                 # Reviewer 3 Points 5 & 6: Capacity-matched ablation suite
+├── ablation_matched_capacity/                 # Matched-Capacity Ablation & Paired Statistical Suite
 │   ├── README.md                              # Scientific rationale & execution guide
 │   ├── models.py                              # StandardMatchedTransformer & matched depth logic
 │   ├── verify_capacity.py                     # Parameter parity verification script
 │   ├── run_ablation.py                        # LOGO 3-model ablation runner (WESAD & Stress-Predict)
 │   ├── generate_deliverables.py               # Extended Table 7 & comparative figure generator
-│   └── statistical_analysis.py                # Point 6: Paired Wilcoxon, t/bootstrap CIs, r_rb, d_z & plots
+│   └── statistical_analysis.py                # Paired Wilcoxon, t/bootstrap CIs, r_rb, d_z & plots
 │
 ├── data_cache/                                # Preprocessed portable window caches (.npz) for fast reproduction
 │   ├── wesad_30s.npz
@@ -115,10 +115,10 @@ TimePatch-SSL/
 │   ├── stress_predict_30s.npz
 │   └── stress_predict_60s.npz
 │
-├── docs/                                      # Reviewer 3 Technical Reports & Supplementary Material Guides
-│   ├── reviewer_3_master_response_and_traceability.md
-│   ├── reviewer_3_experiments_report_points_1_to_4.md
-│   ├── reviewer_3_point5_and_6_ablation_statistical_report.md
+├── docs/                                      # Technical Verification Reports & Supplementary Material Guides
+│   ├── experimental_verification_and_traceability.md
+│   ├── diagnostic_audits_and_convergence_report.md
+│   ├── matched_capacity_ablation_statistical_report.md
 │   └── supplementary_material_figures_and_tables_guide.md
 │
 ├── results/
@@ -132,7 +132,7 @@ TimePatch-SSL/
 │   ├── tables/
 │   │   ├── README.md                          # Tables guide (Manuscript, Audit & Ablation)
 │   │   ├── reported_metrics_summary.csv       # Unified summary of manuscript Exp 1–4
-│   │   ├── reviewer3_evidence_traceability_matrix.csv
+│   │   ├── experimental_evidence_traceability_matrix.csv
 │   │   ├── audit_point7_tables_consistency_summary.csv
 │   │   ├── audit_point7_positive_class_verification.csv
 │   │   ├── audit_point1_auroc_table.csv
@@ -455,17 +455,13 @@ These metrics complement aggregate Accuracy, F1, Balanced Accuracy, and
 AUROC by making performance for both stress and non-stress classes
 explicit.
 
-## Reviewer Point 5: Matched-Capacity Ablation Study
+## Matched-Capacity Ablation Study
 
 ### Motivation and Scientific Context
 
-During peer review, the following objection was raised regarding novelty and causal attribution:
+In the baseline architectures, the Hierarchical encoder utilizes ~1.73M parameters (60s) and ~7.82M parameters (30s), whereas the Standard encoder has ~692K parameters (60s) and ~4.96M parameters (30s). A central methodological question is therefore whether the behavior of the Hierarchical encoder stems from its **hierarchical temporal patch representation** (multi-scale inductive bias) or simply from its **larger parameter capacity** (~2.17× parameters in default configurations).
 
-> *"The proposed encoder is described as a conv-plus-local-Transformer replacement for a linear patch projection (pp. 6–8), but the comparisons principally contrast it with the authors' own standard embedding. A convincing contribution requires matched-capacity ablations (convolution only, local Transformer only, SSL only, and their combination), parameter/computation reporting, and meaningful published baselines rerun under the same subject-level splits and preprocessing. Claims that the representation suppresses noise or motion artifacts (p. 7) are mechanistic claims with no artifact analysis or ablation and should be removed or supported."*
-
-In the original manuscript, the Hierarchical encoder utilized ~1.73M parameters (60s) and ~7.82M parameters (30s), whereas the baseline Standard encoder had ~692K parameters (60s) and ~4.96M parameters (30s). A critical question was therefore whether the performance of the Hierarchical encoder stemmed from its **hierarchical temporal patch representation** (multi-scale inductive bias) or simply from its **larger parameter capacity** (~2.17× parameters in default configurations).
-
-To resolve this, we implemented a dedicated capacity-matched model variant: **Standard-Matched**, isolated cleanly in [`ablation_matched_capacity/`](ablation_matched_capacity/README.md).
+To disentangle architectural structure from parameter count, we evaluate a dedicated capacity-matched model variant: **Standard-Matched**, isolated cleanly in [`ablation_matched_capacity/`](ablation_matched_capacity/README.md).
 
 ### Model Design and Capacity Matching
 
@@ -572,43 +568,43 @@ python ablation_matched_capacity/generate_deliverables.py
 python ablation_matched_capacity/statistical_analysis.py
 ```
 
-## Reviewer 3 Audit & Reproducibility Suite (Points 1–7)
+## Extended Diagnostic Audits & Reproducibility Suite
 
-To ensure complete transparency, positive-class consistency, and end-to-end reproducibility across Manuscript **Tables 2, 3, 4, 6, and 7**, the repository includes an automated 7-point audit suite (`experiments_audit/` and `ablation_matched_capacity/`), portable preprocessed window caches (`data_cache/*.npz`), and publication-ready Supplementary Material guides (`docs/`).
+To ensure complete transparency, positive-class consistency, and end-to-end reproducibility across Manuscript **Tables 2, 3, 4, 6, and 7**, the repository includes an automated 7-point diagnostic and verification suite (`experiments_audit/` and `ablation_matched_capacity/`), portable preprocessed window caches (`data_cache/*.npz`), and publication-ready Supplementary Material guides (`docs/`).
 
 ### Positive-Class & Evaluation Convention (Verified Across All Scripts)
-- **Positive Class:** `y = 1` (**Stress**) across all datasets (`WESAD` and `Stress-Predict`), protocols (Experiments 1–4), and audits (Points 1–7).
+- **Positive Class:** `y = 1` (**Stress**) across all datasets (`WESAD` and `Stress-Predict`), protocols (Experiments 1–4), and diagnostic audits (Points 1–7).
 - **Predicted Probability:** `p_stress = torch.softmax(logits, dim=1)[:, 1]`, verified programmatically by [`experiments_audit/audit_point7_master_consistency.py`](experiments_audit/audit_point7_master_consistency.py) and exported in [`results/tables/audit_point7_positive_class_verification.csv`](results/tables/audit_point7_positive_class_verification.csv).
 - **Default Decision Threshold:** $\tau = 0.50$ (`y_pred = (p_stress >= 0.50).astype(int)`).
-- **Seeds & Determinism:** Base random seed `42` (`set_seed(42)`), deterministic per-participant fold seeds (`seed + fold_idx`), and `GroupShuffleSplit(n_splits=5, test_size=0.20, random_state=42)` for multi-split sensitivity analysis.
+- **Seeds & Determinism:** Base random seed `42` (`set_seed(42)`) and deterministic per-participant fold seeds (`seed + fold_idx`).
 
-### Master Traceability & Reproduction Commands (Points 1–7)
+### Master Traceability & Reproduction Commands (Audits 1–7)
 
-See [`docs/reviewer_3_master_response_and_traceability.md`](docs/reviewer_3_master_response_and_traceability.md) and [`results/tables/reviewer3_evidence_traceability_matrix.csv`](results/tables/reviewer3_evidence_traceability_matrix.csv) for the full mapping between Reviewer 3's comments and repository deliverables:
+See [`docs/experimental_verification_and_traceability.md`](docs/experimental_verification_and_traceability.md) and [`results/tables/experimental_evidence_traceability_matrix.csv`](results/tables/experimental_evidence_traceability_matrix.csv) for the full mapping between each experimental verification task and repository deliverables:
 
 ```bash
-# Point 1: Cross-dataset probability calibration, ROC curve, and threshold sweep (Table 2 audit)
+# Audit 1: Cross-dataset AUROC & probability-inversion verification (Experiment 2 / Table 3)
 python experiments_audit/audit_point1.py
 
-# Point 2: Per-class metrics (Precision/Recall/F1 for Non-Stress & Stress) and confusion matrices (Tables 2, 3, 6)
+# Audit 2: Per-class metrics (Precision/Recall/Specificity/F1), confusion matrices & Always-Stress comparison
 python experiments_audit/audit_point2.py
 
-# Point 3: SSL pretraining & fine-tuning learning curves (Experiment 3 / Table 3)
+# Audit 3: Standard vs. Hierarchical training & validation convergence curves
 python experiments_audit/audit_point3.py
 
-# Point 4: Multi-split sensitivity analysis (K=5 subject-grouped splits, Experiment 4 / Table 6)
+# Audit 4: Training fairness, Optuna hyperparameter budget & zero-leakage verification
 python experiments_audit/audit_point4.py
 
-# Point 5: Capacity-matched LOGO ablation on Stress-Predict & WESAD (Extended Table 7)
+# Audit 5: Capacity-matched LOGO ablation on Stress-Predict & WESAD (Extended Table 7)
 python ablation_matched_capacity/verify_capacity.py
 python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 60 --device cuda
 python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 30 --device cuda
 python ablation_matched_capacity/generate_deliverables.py
 
-# Point 6: Paired statistical analysis (Wilcoxon, Student-t & bootstrap 95% CIs, r_rb, Cohen's d_z, Figures S7–S8)
+# Audit 6: Paired statistical analysis (Wilcoxon, Student-t & bootstrap 95% CIs, r_rb, Cohen's d_z, Figures S7–S8)
 python ablation_matched_capacity/statistical_analysis.py
 
-# Point 7: Master consistency audit across Tables 2, 3, 4, 6, 7 & positive-class verification
+# Audit 7: Master consistency audit across Tables 2, 3, 4, 6, 7 & positive-class verification
 python experiments_audit/audit_point7_master_consistency.py
 ```
 
@@ -623,7 +619,7 @@ python experiments/experiment2_cross_dataset.py
 python experiments/experiment3_within_ssl.py
 python experiments/experiment4_combined.py
 
-# Reviewer Point 5: Capacity-matched ablation study (Standard vs. Hierarchical vs. Standard-Matched)
+# Capacity-matched ablation study (Standard vs. Hierarchical vs. Standard-Matched)
 python ablation_matched_capacity/verify_capacity.py
 python ablation_matched_capacity/run_ablation.py --window-seconds 60 --device cuda
 python ablation_matched_capacity/run_ablation.py --window-seconds 30 --device cuda
@@ -678,7 +674,7 @@ results/
 │   ├── README.md                              # Tables guide
 │   ├── reported_metrics_summary.csv           # Consolidated table of Experiments 1–4
 │   ├── source_result_summaries/               # 18 original Colab execution summaries
-│   └── ablation_matched_capacity/             # Reviewer Point 5 ablation results
+│   └── ablation_matched_capacity/             # Matched-capacity ablation results
 │       ├── README.md                          # Scientific summary of ablation findings
 │       ├── ablation_matched_capacity_parameters.csv          # Parameter parity audit
 │       ├── ablation_matched_capacity_results_wesad_60s.csv   # 60s summary metrics
@@ -720,7 +716,8 @@ The complete source code, neural network implementations (Standard, Hierarchical
 - **Primary Modules:**
   - Core pipeline and models: [`src/`](src/)
   - Main manuscript benchmarks (Experiments 1–4): [`experiments/`](experiments/)
-  - Reviewer Point 5 matched-capacity ablation: [`ablation_matched_capacity/`](ablation_matched_capacity/)
+  - Diagnostic audits and consistency suite: [`experiments_audit/`](experiments_audit/)
+  - Matched-capacity ablation and paired statistics: [`ablation_matched_capacity/`](ablation_matched_capacity/)
   - Quantitative reproduction tables and participant logs: [`results/tables/`](results/tables/)
   - Exact environment specifications: [`requirements.txt`](requirements.txt) and [`environment.yml`](environment.yml)
 

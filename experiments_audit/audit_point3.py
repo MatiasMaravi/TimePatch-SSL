@@ -1,4 +1,4 @@
-"""Audit for Reviewer 3 - Point 3: Verificación de convergencia del Standard encoder.
+"""Diagnostic Audit - Point 3: Verificación de convergencia del Standard encoder.
 
 Dataset: Stress-Predict.
 Ventanas: 30 s y 60 s.

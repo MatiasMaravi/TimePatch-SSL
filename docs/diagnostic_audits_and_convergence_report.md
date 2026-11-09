@@ -1,4 +1,4 @@
-# Auditoría Experimental y Respuesta a Reviewer 3 (Puntos 1 al 4)
+# Informe de Auditoría Diagnóstica, Matrices de Confusión y Convergencia (Puntos 1 al 4)
 **Proyecto:** TimePatch-SSL — Self-Supervised Learning for Wearable Stress Detection  
 **Fecha de Ejecución:** Noviembre 2026  
 **Entorno de Ejecución:** PyTorch 2.14.0+cu130, NVIDIA GeForce RTX 3060, Python 3.10  
@@ -13,7 +13,7 @@
 
 ## Resumen Ejecutivo
 
-El presente documento recopila la evidencia empírica, tablas cuantitativas, figuras diagnósticas y análisis metodológico para responder con rigor científico a las observaciones del **Reviewer 3** (Puntos 1 al 4 del documento *Sensors_ TimePatch v3.pdf*):
+El presente documento recopila la evidencia empírica, tablas cuantitativas, figuras diagnósticas y análisis metodológico correspondientes a los **Puntos 1 al 4** de la auditoría experimental:
 
 1. **Punto 1 (Auditoría de AUROC Anómalo 0.1049):** Se auditó de forma exhaustiva la evaluación de transferencia *cross-dataset* de Stress-Predict a WESAD (30 s, Standard encoder). Se confirmó matemáticamente la causa del valor anómalo: corresponde a la inversión de orden ($\text{AUROC}(1 - p) = 1 - \text{AUROC}(p)$) donde $1.0 - 0.8951 = 0.1049$ o a un colapso en discriminación inducido por el desfase de dominio que invierte la probabilidad asignada a la clase no-estrés ($p_{\text{non-stress}} = \text{softmax}[:, 0]$). Evaluando directamente $p_{\text{stress}} = \text{softmax}[:, 1]$, el modelo colapsa a la clase mayoritaria con AUROC de $0.4844$ e inversión matemática a $0.5156$.
 2. **Punto 2 (Matrices de Confusión, Desglose por Clase y Colapso a Clase Mayoritaria):** Se evaluaron las 12 configuraciones solicitadas (Experimento 2 cross-dataset, Experimento 1 within-dataset y Experimento 4 combinado). Se demostró empíricamente que el Standard encoder a 30 s colapsa al 100% hacia la clase mayoritaria (Balanced Accuracy = 0.5000, Specificity = 0.0000, coincidiendo exactamente con el baseline trivial *Always-Stress*). Por el contrario, la arquitectura **Hierarchical (TimePatch-SSL)** evita dicho colapso alcanzando **82.69% de Balanced Accuracy, 90.30% de AUROC y F1 balanceado (0.8548 en estrés, 0.7947 en no-estrés)**. A 60 s, ambas arquitecturas operan sin colapso debido al mayor campo receptivo contextual.
@@ -63,7 +63,7 @@ El valor anómalo histórico de 0.1049 se originó al indexar la probabilidad co
 
 ## Punto 2: Matrices de Confusión, Métricas por Clase y Diagnóstico de Colapso
 
-El Reviewer 3 solicitó evaluar de manera exhaustiva 12 configuraciones en 3 experimentos:
+Se evaluaron de manera exhaustiva 12 configuraciones en 3 experimentos:
 - **Experimento 2 (Cross-dataset: Stress-Predict → WESAD):** 30s/60s, Standard vs. Hierarchical.
 - **Experimento 1 (Within-dataset: Stress-Predict holdout):** 30s/60s, Standard vs. Hierarchical.
 - **Experimento 4 (Combined D1+D2 → Stress-Predict holdout):** 30s/60s, Standard vs. Hierarchical.
@@ -181,10 +181,10 @@ La comparación entre Standard y Hierarchical cumple con los más altos estánda
 
 ---
 
-## Síntesis de Respuestas para el Reviewer 3
+## Síntesis de Conclusiones Diagnósticas (Puntos 1 al 4)
 
-1. **Sobre el AUROC 0.1049 en Exp 2 (30s, Standard):**  
-   *Confirmamos la intuición del revisor respecto a la inversión de probabilidad.* Al evaluar rigurosamente con $p_{\text{stress}} = \text{softmax}[:, 1]$, el AUROC real es de **0.4844** (idéntico al azar), debido al colapso del modelo hacia predecir el 100% de las ventanas como estrés. El valor histórico de 0.1049 correspondió matemáticamente al complemento de la probabilidad de no-estrés ($1.0 - 0.8951 = 0.1049$) provocado por el fuerte domain shift cross-dataset.
+1. **Sobre el AUROC en Exp 2 (30s, Standard):**  
+   Al evaluar rigurosamente con $p_{\text{stress}} = \text{softmax}[:, 1]$, el AUROC real es de **0.4844** (idéntico al azar), debido al colapso del modelo hacia predecir el 100% de las ventanas como estrés. El valor histórico de 0.1049 correspondió matemáticamente al complemento de la probabilidad de no-estrés ($1.0 - 0.8951 = 0.1049$) provocado por el fuerte domain shift cross-dataset.
 2. **Sobre el Diagnóstico de Colapso de Clase Mayoritaria:**  
    *La evidencia demuestra que el Standard encoder a 30s colapsa al 100% hacia la clase mayoritaria* (Balanced Accuracy = 0.5000, Specificity = 0.0000, empatando exactamente con el baseline trivial *Always-Stress*). La contribución fundamental de **TimePatch-SSL (Hierarchical)** es evitar este colapso, alcanzando **82.69% de Balanced Accuracy y 90.30% de AUROC** a 30 s. A 60 s, el contexto temporal extendido permite que ambas arquitecturas superen el colapso.
 3. **Sobre la Convergencia y Optimización:**  

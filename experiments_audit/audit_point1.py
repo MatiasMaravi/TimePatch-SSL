@@ -1,4 +1,4 @@
-"""Audit for Reviewer 3 - Point 1: Auditoría del AUROC anómalo (0.1049).
+"""Diagnostic Audit - Point 1: Cross-Dataset AUROC & Probability-Inversion Audit.
 
 Configuration: Stress-Predict -> WESAD, Standard encoder, 30s windows.
 Activities:

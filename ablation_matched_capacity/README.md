@@ -1,8 +1,6 @@
-# Matched-Capacity Ablation Study (Reviewer Point 5 & Reviewer 3 Follow-Up)
+# Matched-Capacity Ablation Study (Standard vs. Hierarchical vs. Standard-Matched)
 
-Este módulo implementa el estudio de ablación con capacidad equiparada (**Standard-Matched**) tanto en **WESAD** como en **Stress-Predict** bajo el protocolo supervisado Leave-One-Group-Out (LOGO) del **Experiment 1**:
-
-> *"1) The capacity-matched ablation (§4.6, Table 7) is reported for WESAD only... Please run the Standard-Matched control on Stress-Predict, at least under the Experiment 1 protocol. Until then, please restrict the statement that the ablation 'reduces parameter count as a sufficient explanation for the observed differences'."*
+Este módulo implementa el estudio de ablación con capacidad equiparada (**Standard-Matched**) tanto en **WESAD** como en **Stress-Predict** bajo el protocolo supervisado Leave-One-Group-Out (LOGO) del **Experiment 1**, permitiendo aislar el efecto de la representación jerárquica intra-parche frente al número total de parámetros entrenables.
 
 Todo el código de esta ablación está aislado en este directorio (`ablation_matched_capacity/`) para **preservar el 100% de los archivos originales** de `src/`, `analysis/` y `experiments/`.
 
@@ -33,7 +31,7 @@ La ejecución de `verify_capacity.py` reporta las diferencias exactas de paráme
 
 ```text
 ==============================================================================================================
-CAPACITY-MATCHED ABLATION AUDIT (Reviewer Point 5)
+CAPACITY-MATCHED ABLATION PARAMETER AUDIT
 ==============================================================================================================
                  configuration  emb_dim  base_depth  matched_depth  patch_len  standard_trainable  hierarchical_trainable  standard_matched_trainable  diff_matched_vs_hierarchical  rel_diff_pct  parity_ratio
                   Base Default      128           4              9          8              887234                 1923782                     1878594                        -45188         -2.35        0.9765

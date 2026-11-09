@@ -1,12 +1,12 @@
 # Supplementary Material: Figures and Tables Catalog with Publication Legends
 
-This document provides the complete catalog of **Supplementary Figures (Figures S1–S8)** and **Supplementary Tables (Tables S1–S8)** generated across Phases 1–7 to accompany the revised manuscript and the response to **Reviewer 3**. Both English (ready to paste into the *Sensors* Supplementary Material / Manuscript) and Spanish legends are provided for each item.
+This document provides the complete catalog of **Supplementary Figures (Figures S1–S8)** and **Supplementary Tables (Tables S1–S8)** generated across the diagnostic audits and capacity-matched ablation experiments to accompany the manuscript. Both English (ready to include in the *Sensors* Supplementary Material) and Spanish legends are provided for each item.
 
 ---
 
 ## Part I. Supplementary Figures (`results/figures/`)
 
-### Figure S1 — ROC Curve and Probability-Inversion Audit (Reviewer 3, Point 1)
+### Figure S1 — ROC Curve and Probability-Inversion Audit (Audit Point 1)
 - **File:** [`results/figures/audit_point1_roc_curve.png`](../results/figures/audit_point1_roc_curve.png)
 - **Reproduction Script:** `python experiments_audit/audit_point1.py`
 - **Manuscript Reference:** Section 4.3 (Cross-Dataset Transfer, Table 3)
@@ -17,7 +17,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S2 — Confusion Matrices Across Protocols and Architectures (Reviewer 3, Point 2)
+### Figure S2 — Confusion Matrices Across Protocols and Architectures (Audit Point 2)
 - **File:** [`results/figures/audit_point2_confusion_matrices.png`](../results/figures/audit_point2_confusion_matrices.png)
 - **Reproduction Script:** `python experiments_audit/audit_point2.py`
 - **Manuscript Reference:** Sections 4.2, 4.3, and 4.5 (Tables 2, 3, and 6)
@@ -28,7 +28,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S3 — Training and Validation Loss Convergence Curves (Reviewer 3, Point 3)
+### Figure S3 — Training and Validation Loss Convergence Curves (Audit Point 3)
 - **File:** [`results/figures/audit_point3_loss_curves.png`](../results/figures/audit_point3_loss_curves.png)
 - **Reproduction Script:** `python experiments_audit/audit_point3.py`
 - **Manuscript Reference:** Section 4.2 (Training Stability and Convergence Analysis)
@@ -39,7 +39,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S4 — Validation F1-Score and Balanced Accuracy Trajectories (Reviewer 3, Point 3)
+### Figure S4 — Validation F1-Score and Balanced Accuracy Trajectories (Audit Point 3)
 - **File:** [`results/figures/audit_point3_val_metrics_curves.png`](../results/figures/audit_point3_val_metrics_curves.png)
 - **Reproduction Script:** `python experiments_audit/audit_point3.py`
 - **Manuscript Reference:** Section 4.2 (Checkpoint Selection Audit)
@@ -50,7 +50,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S5 — Capacity-Matched Ablation on Stress-Predict (Reviewer 3, Point 5)
+### Figure S5 — Capacity-Matched Ablation on Stress-Predict (Audit Point 5)
 - **Files:**
   - PNG: [`results/figures/ablation_matched_capacity_stress_predict.png`](../results/figures/ablation_matched_capacity_stress_predict.png)
   - PDF: [`results/figures/ablation_matched_capacity_stress_predict.pdf`](../results/figures/ablation_matched_capacity_stress_predict.pdf)
@@ -63,7 +63,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S6 — Four-Panel Capacity-Matched Ablation Across WESAD and Stress-Predict (Reviewer 3, Point 5)
+### Figure S6 — Four-Panel Capacity-Matched Ablation Across WESAD and Stress-Predict (Audit Point 5)
 - **Files:**
   - PNG: [`results/figures/ablation_matched_capacity_all_datasets.png`](../results/figures/ablation_matched_capacity_all_datasets.png)
   - PDF: [`results/figures/ablation_matched_capacity_all_datasets.pdf`](../results/figures/ablation_matched_capacity_all_datasets.pdf)
@@ -76,7 +76,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S7 — Participant-Level Paired Differences on Stress-Predict (Reviewer 3, Point 6)
+### Figure S7 — Participant-Level Paired Differences on Stress-Predict (Audit Point 6)
 - **Files:**
   - PNG: [`results/figures/ablation_paired_differences_stress_predict.png`](../results/figures/ablation_paired_differences_stress_predict.png)
   - PDF: [`results/figures/ablation_paired_differences_stress_predict.pdf`](../results/figures/ablation_paired_differences_stress_predict.pdf)
@@ -89,7 +89,7 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 
 ---
 
-### Figure S8 — Paired Statistical Forest Plot and Effect-Size Distribution (Reviewer 3, Point 6)
+### Figure S8 — Paired Statistical Forest Plot and Effect-Size Distribution (Audit Point 6)
 - **Files:**
   - PNG: [`results/figures/ablation_paired_differences_summary.png`](../results/figures/ablation_paired_differences_summary.png)
   - PDF: [`results/figures/ablation_paired_differences_summary.pdf`](../results/figures/ablation_paired_differences_summary.pdf)
@@ -113,4 +113,4 @@ This document provides the complete catalog of **Supplementary Figures (Figures 
 | **Table S5** | [`results/tables/audit_point4_fairness_hyperparameters_budget.csv`](../results/tables/audit_point4_fairness_hyperparameters_budget.csv) | **Point 4 Fairness & Hyperparameter Budget Table:** Documents 28/7 subject splits, zero test leakage, 5 Optuna trials per variant, shared search space, and exact trainable parameter deltas. |
 | **Table S6** | [`results/tables/ablation_matched_capacity/table7_extended_ablation_summary.csv`](../results/tables/ablation_matched_capacity/table7_extended_ablation_summary.csv) | **Point 5 Extended Table 7 (WESAD & Stress-Predict):** Aggregate LOGO metrics (Mean $\pm$ SD) and exact parameter counts/relative differences for `Standard`, `Hierarchical`, and `Standard-Matched` across both datasets (30 s and 60 s). |
 | **Table S7** | [`results/tables/ablation_matched_capacity/ablation_matched_capacity_statistical_analysis.csv`](../results/tables/ablation_matched_capacity/ablation_matched_capacity_statistical_analysis.csv) | **Point 6 Paired Statistical Comparison Table:** Mean paired differences, Student's $t$ and 10,000-resample bootstrap 95% CIs, medians/IQRs, Win/Tie/Loss counts, Cohen's $d_z$, rank-biserial $r_{\text{rb}}$, Wilcoxon $W$, raw $p$-values, and Bonferroni/Holm-Bonferroni adjusted $p$-values. |
-| **Table S8** | [`results/tables/reviewer3_evidence_traceability_matrix.csv`](../results/tables/reviewer3_evidence_traceability_matrix.csv) | **Point 7 Reviewer 3 Traceability Matrix:** Maps every Reviewer 3 comment/task (Points 1–7) to its reproduction scripts, CSV tables, supplementary figures, and defensible scientific conclusions. |
+| **Table S8** | [`results/tables/experimental_evidence_traceability_matrix.csv`](../results/tables/experimental_evidence_traceability_matrix.csv) | **Experimental Evidence Traceability Matrix:** Maps every diagnostic audit and ablation experiment (Points 1–7) to its reproduction scripts, CSV tables, supplementary figures, and scientific conclusions. |

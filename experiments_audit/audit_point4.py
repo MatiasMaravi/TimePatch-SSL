@@ -1,4 +1,4 @@
-"""Audit for Reviewer 3 - Point 4: Training Fairness & Hyperparameter Search Audit.
+"""Diagnostic Audit - Point 4: Training Fairness & Hyperparameter Search Audit.
 
 Audits:
 - Participant splits fairness (verifies both use identical subject-disjoint splits).

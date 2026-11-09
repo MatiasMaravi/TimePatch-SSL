@@ -1,9 +1,6 @@
-# Matched-Capacity Ablation Results (Reviewer Point 5 & Reviewer 3 Follow-Up)
+# Matched-Capacity Ablation Results (WESAD & Stress-Predict)
 
-This folder contains the reproducible tables, participant-level evaluation metrics, and statistical comparisons generated for **Reviewer Point 5 (Novelty and Causal Attribution)** and **Reviewer 3's follow-up request** to extend the capacity-matched ablation (`Standard-Matched`) to **Stress-Predict** under the Experiment 1 protocol.
-
-> **Reviewer 3 Request:**
-> *"1) The capacity-matched ablation (§4.6, Table 7) is reported for WESAD only. On WESAD the Standard–Hierarchical differences are small and change sign across window lengths and training conditions, so there is little for a capacity control to explain. The paper's clearest architectural result is on Stress-Predict (Tables 2, 4 and 6). Please run the Standard-Matched control on Stress-Predict, at least under the Experiment 1 protocol. Until then, please restrict the statement that the ablation 'reduces parameter count as a sufficient explanation for the observed differences'."*
+This folder contains the reproducible tables, participant-level evaluation metrics, and statistical comparisons generated for the **Matched-Capacity Ablation Study (`Standard-Matched`)** across both **WESAD** and **Stress-Predict** under the **Experiment 1** supervised Leave-One-Group-Out (LOGO) protocol.
 
 To isolate the effect of the **hierarchical temporal patch representation** from model parameter count across both datasets (**WESAD** and **Stress-Predict**) and both window lengths (**30 s** and **60 s**), we evaluate three encoder variants under the exact **Experiment 1** supervised Leave-One-Group-Out (LOGO) protocol.
 
@@ -88,7 +85,7 @@ To isolate the effect of the **hierarchical temporal patch representation** from
 
 ---
 
-## 4. Key Conclusions on Capacity vs. Architecture (Reviewer 3 Response)
+## 4. Key Conclusions on Capacity vs. Architecture
 
 1. **Exact Parameter Parity Disclosure:**
    Adding global Transformer layers to the linear-patch `Standard` encoder (`Standard-Matched`) achieves a relative parameter difference wrt `Hierarchical` of **+3.83%** on Stress-Predict 30 s ($8.12\text{M}$ vs. $7.82\text{M}$) and **+4.80%** on Stress-Predict 60 s ($6.54\text{M}$ vs. $6.24\text{M}$), and **-2.61%** (60 s) / **+3.83%** (30 s) on WESAD. We report these exact figures without claiming `< 4%` equivalence across all configurations.

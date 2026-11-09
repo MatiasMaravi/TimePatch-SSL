@@ -1,4 +1,4 @@
-"""Audit for Reviewer 3 - Point 2: Confusion Matrices, Per-Class Breakdown, and Majority Collapse.
+"""Diagnostic Audit - Point 2: Confusion Matrices, Per-Class Breakdown, and Majority Collapse.
 
 Evaluates:
 1. Experiment 2: Stress-Predict -> WESAD

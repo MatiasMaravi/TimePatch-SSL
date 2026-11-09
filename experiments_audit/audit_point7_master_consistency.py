@@ -1,4 +1,4 @@
-"""Audit for Reviewer 3 - Point 7: Final Consistency, Positive-Class Verification & Reproducibility Audit.
+"""Audit Point 7: Final Consistency, Positive-Class Verification & Reproducibility Audit.
 
 Activities performed automatically by this script:
 1. Verifies consistency across experimental outputs, manuscript tables (Tables 2, 3, 4, 6, and 7), and repository CSVs.
@@ -7,7 +7,7 @@ Activities performed automatically by this script:
 3. Exports:
    - results/tables/audit_point7_tables_consistency_summary.csv (Unified audit of Manuscript Tables 2, 3, 4, 6, and 7)
    - results/tables/audit_point7_positive_class_verification.csv (Code & prediction positive-class verification log)
-   - results/tables/reviewer3_evidence_traceability_matrix.csv (Traceability table mapping Reviewer Points 1–7 to scripts, tables, figures, and conclusions)
+   - results/tables/experimental_evidence_traceability_matrix.csv (Traceability table mapping Audit Points 1–7 to scripts, tables, figures, and conclusions)
 """
 
 from __future__ import annotations
@@ -123,7 +123,7 @@ def build_tables_consistency_summary() -> pd.DataFrame:
         p2_df = pd.read_csv(p2_csv)
         for _, r in p2_df.iterrows():
             rows.append({
-                "Manuscript_Table": f"Reviewer 3 Point 2 Audit ({r['Experimento']})",
+                "Manuscript_Table": f"Per-Class & Confusion Matrix Audit ({r['Experimento']})",
                 "Protocol": r["Experimento"],
                 "Dataset_or_Direction": r["Configuracion"],
                 "Window_s": int(r["Ventana_s"]),
@@ -177,21 +177,21 @@ def build_tables_consistency_summary() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def build_reviewer3_traceability_matrix() -> pd.DataFrame:
-    """Create the master traceability table mapping each Reviewer 3 objection/task (Points 1–7) to its evidence."""
+def build_evidence_traceability_matrix() -> pd.DataFrame:
+    """Create the master traceability table mapping each diagnostic audit and ablation study (Points 1–7) to its evidence."""
     records = [
         {
-            "Reviewer_Point": "Point 1: Anomalous AUROC (0.1049) in Exp 2 (Stress-Predict -> WESAD, 30s, Standard)",
-            "Reviewer_Concern": "Explain how AUROC=0.1049 arises in Table 3 while Acc=0.2971, F1=0.4581, BAcc=0.5000; verify positive class probability.",
+            "Audit_Point": "Point 1: Cross-Dataset AUROC & Probability-Inversion Audit (Exp 2: Stress-Predict -> WESAD, 30s, Standard)",
+            "Scientific_Objective": "Verify positive-class probability indexing (p_stress = softmax[:, 1] vs. 1 - p_stress) and diagnose cross-dataset AUROC behavior at 30s.",
             "Reproduction_Script": "experiments_audit/audit_point1.py",
             "Generated_Tables": "results/tables/audit_point1_auroc_table.csv; results/predictions/audit_point1_stresspredict_to_wesad_30s_standard.csv",
             "Generated_Figures": "results/figures/audit_point1_roc_curve.png",
             "Key_Quantitative_Finding": "Evaluated with p_stress=softmax(logits)[:,1], model predicts 100% stress (TP=656, FP=1532, TN=0, FN=0; BAcc=0.5000) with true AUROC=0.4844 (1-p gives 0.5156). Historical 0.1049 was 1 - 0.8951 from complementary class indexing under cross-dataset shift.",
-            "Defensible_Scientific_Conclusion": "Confirm probability-inversion identity AUROC(1-p)=1-AUROC(p) and replace anomalous 0.1049 with verified positive-class evaluation (AUROC=0.4844, majority-class collapse at 30s).",
+            "Defensible_Scientific_Conclusion": "Confirm probability-inversion identity AUROC(1-p)=1-AUROC(p) and report verified positive-class evaluation (AUROC=0.4844, majority-class collapse at 30s).",
         },
         {
-            "Reviewer_Point": "Point 2: Confusion Matrices, Per-Class Metrics & Majority-Class Collapse (Exp 1, 2, 4)",
-            "Reviewer_Concern": "Provide confusion matrices (TP, TN, FP, FN), class-specific precision/recall/specificity/F1, % predicted stress, and comparison against trivial Always-Stress classifier.",
+            "Audit_Point": "Point 2: Confusion Matrices, Per-Class Metrics & Majority-Class Collapse Analysis (Exp 1, 2, 4)",
+            "Scientific_Objective": "Provide confusion matrices (TP, TN, FP, FN), class-specific precision/recall/specificity/F1, % predicted stress, and comparison against trivial Always-Stress baseline.",
             "Reproduction_Script": "experiments_audit/audit_point2.py",
             "Generated_Tables": "results/tables/audit_point2_per_class_metrics.csv; results/tables/audit_point2_always_stress_comparison.csv",
             "Generated_Figures": "results/figures/audit_point2_confusion_matrices.png",
@@ -199,8 +199,8 @@ def build_reviewer3_traceability_matrix() -> pd.DataFrame:
             "Defensible_Scientific_Conclusion": "Demonstrates with exact confusion matrices when majority-class collapse occurs (Standard 30s under domain/subject shift) and when both models avoid collapse (60s windows).",
         },
         {
-            "Reviewer_Point": "Point 3: Convergence Verification of Standard vs. Hierarchical Encoder",
-            "Reviewer_Concern": "Verify whether Standard encoder failed to converge or suffered numerical instability during training on Stress-Predict (30s and 60s).",
+            "Audit_Point": "Point 3: Convergence & Numerical Stability Verification of Standard vs. Hierarchical Encoder",
+            "Scientific_Objective": "Verify whether Standard encoder experienced optimization failure or numerical instability during training on Stress-Predict (30s and 60s).",
             "Reproduction_Script": "experiments_audit/audit_point3.py",
             "Generated_Tables": "results/tables/audit_point3_convergence_summary.csv",
             "Generated_Figures": "results/figures/audit_point3_loss_curves.png; results/figures/audit_point3_val_metrics_curves.png",
@@ -208,8 +208,8 @@ def build_reviewer3_traceability_matrix() -> pd.DataFrame:
             "Defensible_Scientific_Conclusion": "Rules out optimization failure or numerical instability; test degradation in 30s holdout/cross-dataset regimes reflects representation generalization rather than failed training.",
         },
         {
-            "Reviewer_Point": "Point 4: Training Fairness, Hyperparameter Search Budget & Leakage Audit",
-            "Reviewer_Concern": "Confirm identical participant splits, Optuna search budget, training conditions, zero test leakage, and explicit parameter counts.",
+            "Audit_Point": "Point 4: Training Fairness, Hyperparameter Search Budget & Leakage Audit",
+            "Scientific_Objective": "Confirm identical participant splits, Optuna search budget, training conditions, zero test leakage, and explicit parameter counts.",
             "Reproduction_Script": "experiments_audit/audit_point4.py",
             "Generated_Tables": "results/tables/audit_point4_fairness_hyperparameters_budget.csv",
             "Generated_Figures": "N/A (Tabular & JSON split audit in splits/)",
@@ -217,8 +217,8 @@ def build_reviewer3_traceability_matrix() -> pd.DataFrame:
             "Defensible_Scientific_Conclusion": "Certifies strict experimental fairness and zero data leakage across all comparative benchmarks.",
         },
         {
-            "Reviewer_Point": "Point 5: Capacity-Matched Ablation (Standard-Matched) on Stress-Predict & WESAD",
-            "Reviewer_Concern": "Run Standard-Matched capacity control on Stress-Predict (30s & 60s) under Experiment 1 LOGO protocol and report exact parameter differences.",
+            "Audit_Point": "Point 5: Capacity-Matched Ablation (Standard-Matched) on Stress-Predict & WESAD",
+            "Scientific_Objective": "Evaluate Standard-Matched capacity control on Stress-Predict (30s & 60s) under Experiment 1 LOGO protocol and report exact parameter differences.",
             "Reproduction_Script": "ablation_matched_capacity/run_ablation.py; ablation_matched_capacity/verify_capacity.py; ablation_matched_capacity/generate_deliverables.py",
             "Generated_Tables": "results/tables/ablation_matched_capacity/table7_extended_ablation_summary.csv; results/tables/ablation_matched_capacity/ablation_matched_capacity_parameters.csv; results/tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_{30,60}s.csv; results/tables/ablation_matched_capacity/ablation_matched_capacity_participants_stress_predict_{30,60}s.csv",
             "Generated_Figures": "results/figures/ablation_matched_capacity_stress_predict.png; results/figures/ablation_matched_capacity_all_datasets.png",
@@ -226,22 +226,22 @@ def build_reviewer3_traceability_matrix() -> pd.DataFrame:
             "Defensible_Scientific_Conclusion": "Reports exact parameter parity (+3.83% and +4.80%) and extends Table 7 to Stress-Predict. Scaling global depth alone (Standard-Matched) does not improve supervised LOGO performance and slightly degrades 30s F1.",
         },
         {
-            "Reviewer_Point": "Point 6 (Ablation Statistics): Paired Subject-Level Statistical Analysis of Ablation",
-            "Reviewer_Concern": "Compare Hierarchical vs. Standard-Matched and Standard vs. Hierarchical using paired participant tests, 95% CIs, effect sizes, and multiple-testing corrections without overclaiming causality.",
+            "Audit_Point": "Point 6: Paired Subject-Level Statistical Analysis of the Capacity-Matched Ablation",
+            "Scientific_Objective": "Compare Hierarchical vs. Standard-Matched and Standard vs. Hierarchical using paired participant tests, 95% CIs, effect sizes, and multiple-testing corrections.",
             "Reproduction_Script": "ablation_matched_capacity/statistical_analysis.py",
             "Generated_Tables": "results/tables/ablation_matched_capacity/ablation_matched_capacity_statistical_analysis.csv; results/tables/ablation_matched_capacity/ablation_matched_capacity_paired_comparisons.csv",
             "Generated_Figures": "results/figures/ablation_paired_differences_stress_predict.png; results/figures/ablation_paired_differences_summary.png",
             "Key_Quantitative_Finding": "On Stress-Predict 30s, ΔF1(Hier - Matched) = +0.0069 (95% CI [-0.0048, +0.0186], r_rb=+0.291, W=134, p_raw=0.1864, p_Holm=1.0000), while ΔF1(Matched - Standard) = -0.0162 (r_rb=-0.494, p_raw=0.0201, p_Holm=0.1608). On 60s, all |Δ| <= 0.0118 (p_raw >= 0.2989).",
-            "Defensible_Scientific_Conclusion": "Restricts causal claims in §4.6 as requested by Reviewer 3: under purely supervised LOGO training from scratch (Exp 1), neither hierarchical patching nor deeper global capacity yields a statistically significant gain after multiplicity correction.",
+            "Defensible_Scientific_Conclusion": "Under purely supervised LOGO training from scratch (Exp 1), neither hierarchical patching nor deeper global capacity yields a statistically significant gain after multiplicity correction; causal interpretation in §4.6 is calibrated accordingly.",
         },
         {
-            "Reviewer_Point": "Point 6 (Transparency) & Point 7: Final Reproducibility, Splits & Supplementary Package",
-            "Reviewer_Concern": "Provide Data Availability Statement, Code Availability Statement, exact split definitions, environment files, reproduction scripts, and supplementary legends.",
+            "Audit_Point": "Point 7: Master Consistency Audit, Positive-Class Verification & Supplementary Package",
+            "Scientific_Objective": "Provide Data & Code Availability Statements, exact split definitions, environment files, reproduction scripts, positive-class verification, and supplementary legends.",
             "Reproduction_Script": "experiments_audit/audit_point7_master_consistency.py",
-            "Generated_Tables": "results/tables/audit_point7_tables_consistency_summary.csv; results/tables/audit_point7_positive_class_verification.csv; results/tables/reviewer3_evidence_traceability_matrix.csv; splits/*.json",
+            "Generated_Tables": "results/tables/audit_point7_tables_consistency_summary.csv; results/tables/audit_point7_positive_class_verification.csv; results/tables/experimental_evidence_traceability_matrix.csv; splits/*.json",
             "Generated_Figures": "All supplementary figures in results/figures/ documented with captions in docs/supplementary_material_figures_and_tables_guide.md",
-            "Key_Quantitative_Finding": "100% of modules verified for positive class y=1 (Stress); portable data_cache/*.npz fallback enabled; Data & Code Availability Statements added to README.md and manuscript guide.",
-            "Defensible_Scientific_Conclusion": "Completes compliance with journal Data/Code Availability mandates and provides a self-contained, one-command reproducible package.",
+            "Key_Quantitative_Finding": "100% of modules verified for positive class y=1 (Stress); portable data_cache/*.npz fallback enabled; Data & Code Availability Statements included in README.md.",
+            "Defensible_Scientific_Conclusion": "Completes compliance with Data/Code Availability standards and provides a self-contained reproducible package.",
         },
     ]
     return pd.DataFrame(records)
@@ -262,11 +262,11 @@ def main():
     cons_df.to_csv(cons_csv, index=False)
     print(f"\nSaved unified Tables 2, 3, 4, 6, 7 consistency summary to: {cons_csv} ({len(cons_df)} rows)")
 
-    trace_df = build_reviewer3_traceability_matrix()
-    trace_csv = tables_dir / "reviewer3_evidence_traceability_matrix.csv"
+    trace_df = build_evidence_traceability_matrix()
+    trace_csv = tables_dir / "experimental_evidence_traceability_matrix.csv"
     trace_df.to_csv(trace_csv, index=False)
-    print(f"\nSaved Reviewer 3 evidence traceability matrix to: {trace_csv}")
-    print(trace_df[["Reviewer_Point", "Reproduction_Script", "Generated_Figures"]].to_string(index=False))
+    print(f"\nSaved experimental evidence traceability matrix to: {trace_csv}")
+    print(trace_df[["Audit_Point", "Reproduction_Script", "Generated_Figures"]].to_string(index=False))
 
 
 if __name__ == "__main__":

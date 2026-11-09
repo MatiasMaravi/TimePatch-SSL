@@ -4,8 +4,8 @@ This directory contains all experimental outputs, quantitative tables, participa
 
 It is structured to organize:
 1. **Original Manuscript Benchmarks** (Experiments 1–4 across **WESAD** and **Stress-Predict**, Tables 2, 3, 4, and 6).
-2. **Reviewer 3 Audit Suite (Points 1–4 & Point 7)** (Cross-dataset probability calibration, per-class metrics, confusion matrices, SSL learning curves, $K=5$ multi-split sensitivity, positive-class verification, and master traceability matrix).
-3. **Reviewer 3 Capacity-Matched Ablation & Paired Statistical Analysis (Points 5 & 6)** (`Standard`, `Hierarchical`, and `Standard-Matched` across **WESAD** and **Stress-Predict** under Experiment 1 LOGO validation, Extended Table 7, paired Wilcoxon tests, effect sizes, and paired difference figures).
+2. **Extended Diagnostic & Consistency Audits** (Cross-dataset probability calibration, per-class metrics, confusion matrices, convergence trajectories, training fairness, positive-class verification, and master traceability matrix).
+3. **Capacity-Matched Ablation & Paired Statistical Analysis** (`Standard`, `Hierarchical`, and `Standard-Matched` across **WESAD** and **Stress-Predict** under Experiment 1 LOGO validation, Extended Table 7, paired Wilcoxon tests, effect sizes, and paired difference figures).
 
 ---
 
@@ -28,9 +28,9 @@ results/
 ├── tables/                                    # Quantitative summary tables (Manuscript, Audit & Ablation)
 │   ├── README.md                              # Tables directory guide
 │   ├── reported_metrics_summary.csv           # Unified benchmark summary of Experiments 1–4
-│   ├── reviewer3_evidence_traceability_matrix.csv      # Point 7: Complete traceability matrix (Points 1–7)
-│   ├── audit_point7_tables_consistency_summary.csv     # Point 7: Unified audit of Tables 2, 3, 4, 6 & 7 (50 rows)
-│   ├── audit_point7_positive_class_verification.csv    # Point 7: Programmatic verification of y=1 (Stress)
+│   ├── experimental_evidence_traceability_matrix.csv  # Complete traceability matrix (Audits 1–7)
+│   ├── audit_point7_tables_consistency_summary.csv     # Unified audit of Tables 2, 3, 4, 6 & 7 (50 rows)
+│   ├── audit_point7_positive_class_verification.csv    # Programmatic verification of y=1 (Stress)
 │   ├── audit_point1_auroc_table.csv                    # Point 1: Cross-dataset p_stress vs (1-p_stress) AUROC audit (Table S1)
 │   ├── audit_point2_per_class_metrics.csv              # Point 2: Per-class Precision/Recall/F1 & confusion matrices (Table S2)
 │   ├── audit_point2_always_stress_comparison.csv       # Point 2: Comparison vs. trivial Always-Stress baseline (Table S3)
@@ -70,7 +70,7 @@ results/
 
 | Objective | Relevant Subdirectory / File | Description |
 | :--- | :--- | :--- |
-| **Reviewer 3 Master Traceability Matrix** | [`tables/reviewer3_evidence_traceability_matrix.csv`](./tables/reviewer3_evidence_traceability_matrix.csv) | Maps every Reviewer 3 point (Points 1–7) to its reproduction script, tables, figures, and scientific conclusion. |
+| **Experimental Evidence Traceability Matrix** | [`tables/experimental_evidence_traceability_matrix.csv`](./tables/experimental_evidence_traceability_matrix.csv) | Maps every diagnostic audit and ablation experiment (Points 1–7) to its reproduction script, tables, figures, and scientific conclusion. |
 | **Master Consistency Audit (Tables 2, 3, 4, 6, 7)** | [`tables/audit_point7_tables_consistency_summary.csv`](./tables/audit_point7_tables_consistency_summary.csv) | 50-row unified consistency table across all manuscript and supplementary tables. |
 | **Positive-Class Verification (`y=1` Stress)** | [`tables/audit_point7_positive_class_verification.csv`](./tables/audit_point7_positive_class_verification.csv) | Programmatic verification that all scripts and prediction files use `y=1` (Stress) and `softmax[:, 1]`. |
 | **Extended Table 7 (WESAD + Stress-Predict)** | [`tables/ablation_matched_capacity/table7_extended_ablation_summary.csv`](./tables/ablation_matched_capacity/table7_extended_ablation_summary.csv) | Complete Table 7 extension comparing `Standard`, `Hierarchical`, and `Standard-Matched` across both datasets and window sizes. |
