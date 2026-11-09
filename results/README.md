@@ -2,7 +2,7 @@
 
 This directory contains all experimental outputs, quantitative tables, participant-level metrics, and evaluation artifacts for the **TimePatch-SSL** project.
 
-It is structured to separate original manuscript benchmarks from the newly added Reviewer Point 5 ablation experiments.
+It is structured to separate original manuscript benchmarks from the capacity-matched ablation experiments across **WESAD** and **Stress-Predict**.
 
 ---
 
@@ -25,16 +25,26 @@ results/
 │   ├── README.md                              # Tables directory guide
 │   ├── reported_metrics_summary.csv           # Unified benchmark summary of Experiments 1–4
 │   ├── source_result_summaries/               # 18 raw execution logs from Google Colab
-│   └── ablation_matched_capacity/             # Reviewer Point 5: Matched-Capacity Ablation Suite
+│   └── ablation_matched_capacity/             # Capacity-Matched Ablation Suite (WESAD & Stress-Predict)
 │       ├── README.md                          # Full scientific summary of the ablation study
-│       ├── ablation_matched_capacity_parameters.csv # Parameter parity audit (<4% relative diff)
-│       ├── ablation_matched_capacity_results_wesad_60s.csv       # Summary (Mean ± Std, 95% CI)
-│       ├── ablation_matched_capacity_participants_wesad_60s.csv  # 15-subject metrics breakdown
-│       ├── ablation_matched_capacity_results_wesad_30s.csv       # Summary (Mean ± Std, 95% CI)
-│       └── ablation_matched_capacity_participants_wesad_30s.csv  # 15-subject metrics breakdown
+│       ├── table7_extended_ablation_summary.csv # Extended Table 7 across WESAD & Stress-Predict
+│       ├── ablation_matched_capacity_parameters.csv # Parameter parity audit (-2.61% to +4.80% diff)
+│       ├── ablation_matched_capacity_paired_comparisons.csv # Paired Wilcoxon tests
+│       ├── ablation_matched_capacity_results_stress_predict_60s.csv       # Stress-Predict 60s summary
+│       ├── ablation_matched_capacity_participants_stress_predict_60s.csv  # Stress-Predict 60s (n=33)
+│       ├── ablation_matched_capacity_results_stress_predict_30s.csv       # Stress-Predict 30s summary
+│       ├── ablation_matched_capacity_participants_stress_predict_30s.csv  # Stress-Predict 30s (n=33)
+│       ├── ablation_matched_capacity_results_wesad_60s.csv                # WESAD 60s summary
+│       ├── ablation_matched_capacity_participants_wesad_60s.csv           # WESAD 60s (n=15)
+│       ├── ablation_matched_capacity_results_wesad_30s.csv                # WESAD 30s summary
+│       └── ablation_matched_capacity_participants_wesad_30s.csv           # WESAD 30s (n=15)
 │
-└── figures/                                   # Manuscript figures, ROC curves, confusion matrices
-    └── README.md
+└── figures/                                   # Manuscript figures & comparative ablation plots
+    ├── README.md
+    ├── ablation_matched_capacity_stress_predict.png # Comparative bar chart for Stress-Predict (30s & 60s)
+    ├── ablation_matched_capacity_stress_predict.pdf
+    ├── ablation_matched_capacity_all_datasets.png   # 4-panel comparative bar chart (WESAD & Stress-Predict)
+    └── ablation_matched_capacity_all_datasets.pdf
 ```
 
 ---
@@ -45,8 +55,7 @@ results/
 | :--- | :--- | :--- |
 | **Original Manuscript Results (Exp 1–4)** | [`tables/reported_metrics_summary.csv`](./tables/reported_metrics_summary.csv) | Consolidated table of all 18 runs across WESAD and Stress-Predict (30s & 60s). |
 | **Statistical Tests (Table 4)** | [`predictions/table4_statistics_60s_from_colab.csv`](./predictions/table4_statistics_60s_from_colab.csv) | Wilcoxon signed-rank tests comparing Supervised vs. SSL across participants. |
-| **Colab Execution Logs** | [`tables/source_result_summaries/`](./tables/source_result_summaries/) | Text logs from Colab runs for supervised, cross-dataset, SSL, and combined protocols. |
-| **Reviewer Point 5: Parity Audit** | [`tables/ablation_matched_capacity/ablation_matched_capacity_parameters.csv`](./tables/ablation_matched_capacity/ablation_matched_capacity_parameters.csv) | Trainable parameter counts proving < 4% parity between Hierarchical and Standard-Matched. |
-| **Reviewer Point 5: 60s Ablation** | [`tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv`](./tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv) | 15-subject LOSO evaluation comparing Standard vs. Hierarchical vs. Standard-Matched on 60s windows. |
-| **Reviewer Point 5: 30s Ablation** | [`tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv`](./tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv) | 15-subject LOSO evaluation comparing Standard vs. Hierarchical vs. Standard-Matched on 30s windows. |
-| **Subject-Level Ablation Metrics** | [`tables/ablation_matched_capacity/ablation_matched_capacity_participants_*.csv`](./tables/ablation_matched_capacity/) | Detailed participant-by-participant performance for all 15 subjects ($S2 \dots S17$). |
+| **Extended Table 7 (WESAD + Stress-Predict)** | [`tables/ablation_matched_capacity/table7_extended_ablation_summary.csv`](./tables/ablation_matched_capacity/table7_extended_ablation_summary.csv) | Complete Table 7 extension comparing `Standard`, `Hierarchical`, and `Standard-Matched` across both datasets and window sizes. |
+| **Parameter Parity Audit** | [`tables/ablation_matched_capacity/ablation_matched_capacity_parameters.csv`](./tables/ablation_matched_capacity/ablation_matched_capacity_parameters.csv) | Trainable parameter counts reporting exact relative differences (**-2.61%** WESAD 60s, **+3.83%** 30s, **+4.80%** Stress-Predict 60s). |
+| **Stress-Predict Ablation (60s & 30s)** | [`tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_60s.csv`](./tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_60s.csv) | 33-subject LOGO evaluation on Stress-Predict (60s & 30s) under Experiment 1 protocol. |
+| **Comparative Ablation Figures** | [`figures/ablation_matched_capacity_stress_predict.png`](./figures/ablation_matched_capacity_stress_predict.png) | Bar plots comparing Accuracy, F1, Balanced Accuracy, and AUROC across all three models. |

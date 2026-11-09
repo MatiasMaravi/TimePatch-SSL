@@ -2,7 +2,7 @@
 
 This directory organizes all tabular data, quantitative summaries, and audit logs of the TimePatch-SSL project, categorized into:
 1. **Manuscript Benchmark Results** (Original Experiments 1–4 from Colab)
-2. **Reviewer Point 5 Ablation Study** (Matched-Capacity Ablation Suite)
+2. **Reviewer Point 5 & Reviewer 3 Ablation Study** (Matched-Capacity Ablation Suite across WESAD and Stress-Predict)
 
 ---
 
@@ -23,13 +23,19 @@ results/tables/
 │   ├── ssl_*.txt                              # Exp 3: Within-dataset SSL pretraining
 │   └── combined_*.txt                         # Exp 4: Combined-dataset evaluations
 │
-└── ablation_matched_capacity/                 # Reviewer Point 5: Matched-Capacity Ablation
+└── ablation_matched_capacity/                 # Capacity-Matched Ablation (WESAD & Stress-Predict)
     ├── README.md                              # Detailed guide & summary tables for reviewer response
-    ├── ablation_matched_capacity_parameters.csv # Parameter parity audit (<4% relative diff)
-    ├── ablation_matched_capacity_results_wesad_60s.csv       # Summary (Mean ± Std, 95% CI) 60s
-    ├── ablation_matched_capacity_participants_wesad_60s.csv  # 15-subject metrics breakdown 60s
-    ├── ablation_matched_capacity_results_wesad_30s.csv       # Summary (Mean ± Std, 95% CI) 30s
-    └── ablation_matched_capacity_participants_wesad_30s.csv  # 15-subject metrics breakdown 30s
+    ├── table7_extended_ablation_summary.csv   # Extended Table 7 (WESAD & Stress-Predict, 30s & 60s)
+    ├── ablation_matched_capacity_parameters.csv # Parameter parity audit (-2.61% to +4.80% rel. diff)
+    ├── ablation_matched_capacity_paired_comparisons.csv # Paired Wilcoxon tests across models
+    ├── ablation_matched_capacity_results_stress_predict_60s.csv       # Stress-Predict 60s summary
+    ├── ablation_matched_capacity_participants_stress_predict_60s.csv  # Stress-Predict 60s (n=33)
+    ├── ablation_matched_capacity_results_stress_predict_30s.csv       # Stress-Predict 30s summary
+    ├── ablation_matched_capacity_participants_stress_predict_30s.csv  # Stress-Predict 30s (n=33)
+    ├── ablation_matched_capacity_results_wesad_60s.csv                # WESAD 60s summary
+    ├── ablation_matched_capacity_participants_wesad_60s.csv           # WESAD 60s (n=15)
+    ├── ablation_matched_capacity_results_wesad_30s.csv                # WESAD 30s summary
+    └── ablation_matched_capacity_participants_wesad_30s.csv           # WESAD 30s (n=15)
 ```
 
 ---
@@ -45,13 +51,13 @@ results/tables/
 
 ---
 
-## 2. Reviewer Point 5: Matched-Capacity Ablation
+## 2. Matched-Capacity Ablation (WESAD & Stress-Predict)
 
 Located in [`ablation_matched_capacity/`](./ablation_matched_capacity/README.md):
-- **Purpose**: Evaluates `Standard`, `Hierarchical`, and `Standard-Matched` under strict 15-subject Leave-One-Subject-Out (LOSO) on WESAD to decouple representation architecture from model capacity.
+- **Purpose**: Evaluates `Standard`, `Hierarchical`, and `Standard-Matched` under strict Leave-One-Group-Out (LOGO) cross-validation on **WESAD** ($n=15$) and **Stress-Predict** ($n=33$) under the Experiment 1 supervised protocol.
 - **Key Tables**:
-  - Parity Audit: [`ablation_matched_capacity_parameters.csv`](./ablation_matched_capacity/ablation_matched_capacity_parameters.csv)
-  - 60s Window Aggregate: [`ablation_matched_capacity_results_wesad_60s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv)
-  - 30s Window Aggregate: [`ablation_matched_capacity_results_wesad_30s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv)
-
-*(Note: Copies of the ablation CSVs are also retained at the root of `results/tables/` to maintain backwards compatibility with automated scripts).*
+  - Extended Table 7 Summary: [`table7_extended_ablation_summary.csv`](./ablation_matched_capacity/table7_extended_ablation_summary.csv)
+  - Parameter Parity Audit: [`ablation_matched_capacity_parameters.csv`](./ablation_matched_capacity/ablation_matched_capacity_parameters.csv) (exact relative differences: **-2.61%** WESAD 60s, **+3.83%** WESAD 30s & Stress-Predict 30s, **+4.80%** Stress-Predict 60s)
+  - Paired Wilcoxon Tests: [`ablation_matched_capacity_paired_comparisons.csv`](./ablation_matched_capacity/ablation_matched_capacity_paired_comparisons.csv)
+  - Stress-Predict 60s & 30s Aggregates: [`ablation_matched_capacity_results_stress_predict_60s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_60s.csv), [`ablation_matched_capacity_results_stress_predict_30s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_30s.csv)
+  - WESAD 60s & 30s Aggregates: [`ablation_matched_capacity_results_wesad_60s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv), [`ablation_matched_capacity_results_wesad_30s.csv`](./ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv)

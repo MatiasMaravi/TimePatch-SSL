@@ -1,0 +1,5 @@
+Configuracion,Ventana_s,Arquitectura,Mejor_Epoca_F1,Max_Val_F1,Mejor_Epoca_Loss,Min_Val_Loss,Val_Balanced_Accuracy_Final,Estable_Sin_NaN
+Stress-Predict 30s - Standard,30,Standard,7,0.8864696734059098,12,0.3292699558660388,0.8485018967401787,True
+Stress-Predict 30s - Hierarchical,30,Hierarchical,6,0.8768472906403941,5,0.3538961955346167,0.7994116890632033,True
+Stress-Predict 60s - Standard,60,Standard,8,0.8986486486486487,8,0.36001297272741795,0.8410839160839161,True
+Stress-Predict 60s - Hierarchical,60,Hierarchical,8,0.8680555555555556,3,0.37535171769559383,0.8290909090909091,True

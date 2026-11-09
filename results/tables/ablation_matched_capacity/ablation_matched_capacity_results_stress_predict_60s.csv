@@ -1,0 +1,4 @@
+variant,trainable_params,accuracy_mean,accuracy_std,accuracy_ci95_low,accuracy_ci95_high,n_participants,f1_mean,f1_std,f1_ci95_low,f1_ci95_high,balanced_accuracy_mean,balanced_accuracy_std,balanced_accuracy_ci95_low,balanced_accuracy_ci95_high,auroc_mean,auroc_std,auroc_ci95_low,auroc_ci95_high
+standard,3380034,0.8254,0.1644,0.7671,0.8837,33,0.8495,0.1492,0.7966,0.9025,0.8231,0.173,0.7618,0.8845,0.902,0.1537,0.8474,0.9565
+hierarchical,6239558,0.8282,0.1724,0.7671,0.8893,33,0.855,0.147,0.8028,0.9071,0.8226,0.1841,0.7573,0.8879,0.8996,0.1548,0.8447,0.9545
+standard_matched,6539074,0.8332,0.1545,0.7785,0.888,33,0.8579,0.1347,0.8101,0.9056,0.8314,0.1644,0.7731,0.8896,0.8878,0.1754,0.8256,0.95

@@ -36,9 +36,11 @@ patches. Three encoder variants are evaluated:
     within-patch temporal structure, followed by a global Transformer
     encoder across patches.
 -   **Standard-Matched encoder (Capacity Control):** retains the direct linear
-    patch projection but scales global Transformer depth to achieve parameter
-    parity with the Hierarchical encoder (<4% difference). Introduced specifically
-    to address **Reviewer Point 5** (matched-capacity component ablation and causal attribution).
+    patch projection but scales global Transformer depth to match the trainable
+    parameter capacity of the Hierarchical encoder (exact relative differences of
+    **-2.61%** on WESAD 60s, **+3.83%** on WESAD 30s and Stress-Predict 30s, and
+    **+4.80%** on Stress-Predict 60s). Introduced specifically to address
+    **Reviewer Point 5** and **Reviewer 3's follow-up** (matched-capacity ablation across both WESAD and Stress-Predict).
 
 For SSL experiments, two independently augmented views of each
 physiological window are encoded and optimized using the established
@@ -92,11 +94,12 @@ TimePatch-SSL/
 │   ├── parameter_counts.py
 │   └── per_class_metrics.py
 │
-├── ablation_matched_capacity/                 # Reviewer Point 5: Capacity-matched ablation suite
+├── ablation_matched_capacity/                 # Reviewer Point 5 & Reviewer 3: Capacity-matched ablation suite
 │   ├── README.md                              # Scientific rationale & execution guide
 │   ├── models.py                              # StandardMatchedTransformer & matched depth logic
-│   ├── verify_capacity.py                     # Parameter parity verification script (<4% diff)
-│   └── run_ablation.py                        # LOSO 3-model ablation runner (GPU-accelerated)
+│   ├── verify_capacity.py                     # Parameter parity verification script
+│   ├── run_ablation.py                        # LOSO 3-model ablation runner (WESAD & Stress-Predict)
+│   └── generate_deliverables.py               # Extended Table 7, Wilcoxon tests & figure generator
 │
 ├── results/
 │   ├── README.md                              # Global results overview & navigation guide
@@ -109,15 +112,23 @@ TimePatch-SSL/
 │   │   ├── README.md                          # Tables guide (Manuscript vs. Ablation)
 │   │   ├── reported_metrics_summary.csv       # Unified summary of manuscript Exp 1–4
 │   │   ├── source_result_summaries/           # Raw Colab logs for Exp 1–4
-│   │   └── ablation_matched_capacity/         # Reviewer Point 5 tables (WESAD 30s & 60s)
+│   │   └── ablation_matched_capacity/         # Capacity-matched ablation tables (WESAD & Stress-Predict)
 │   │       ├── README.md                      # Detailed ablation tables summary
+│   │       ├── table7_extended_ablation_summary.csv
 │   │       ├── ablation_matched_capacity_parameters.csv
+│   │       ├── ablation_matched_capacity_paired_comparisons.csv
+│   │       ├── ablation_matched_capacity_results_stress_predict_60s.csv
+│   │       ├── ablation_matched_capacity_participants_stress_predict_60s.csv
+│   │       ├── ablation_matched_capacity_results_stress_predict_30s.csv
+│   │       ├── ablation_matched_capacity_participants_stress_predict_30s.csv
 │   │       ├── ablation_matched_capacity_results_wesad_60s.csv
 │   │       ├── ablation_matched_capacity_participants_wesad_60s.csv
 │   │       ├── ablation_matched_capacity_results_wesad_30s.csv
 │   │       └── ablation_matched_capacity_participants_wesad_30s.csv
 │   └── figures/
-│       └── README.md
+│       ├── README.md
+│       ├── ablation_matched_capacity_stress_predict.png
+│       └── ablation_matched_capacity_all_datasets.png
 │
 └── notebooks/
     └── original_colab.ipynb
@@ -424,7 +435,7 @@ To resolve this, we implemented a dedicated capacity-matched model variant: **St
 
 1. **Standard:** Direct 1D linear patch projection followed by a global Transformer encoder of base depth $L$.
 2. **Hierarchical:** Intra-patch local Transformer (TimeMAE patch encoder) followed by a global Transformer encoder of base depth $L$.
-3. **Standard-Matched:** Retains the simple 1D linear patch projection but deepens the global Transformer to $L' > L$ layers such that its total trainable parameter count matches that of the Hierarchical encoder within a relative margin of **< 4%**.
+3. **Standard-Matched:** Retains the simple 1D linear patch projection but deepens the global Transformer to $L' > L$ layers such that its total trainable parameter count closely approximates that of the Hierarchical encoder (**-2.61%** on WESAD 60s, **+3.83%** on WESAD 30s and Stress-Predict 30s, and **+4.80%** on Stress-Predict 60s).
 
 The capacity matching formula determines $L'$ dynamically:
 $$\Delta P = P_{\text{Hierarchical}} - P_{\text{Standard}}$$
@@ -439,62 +450,87 @@ The script [`ablation_matched_capacity/verify_capacity.py`](ablation_matched_cap
 | **Base Default** | 4 | 9 | 887,234 | 1,923,782 | 1,878,594 | 0.9765 | -2.35% |
 | **WESAD 60s** | 3 | 8 | 692,034 | 1,728,582 | 1,683,394 | 0.9739 | **-2.61%** |
 | **WESAD 30s** | 6 | 10 | 4,959,554 | 7,819,078 | 8,118,594 | 1.0383 | **+3.83%** |
-| **Stress-Predict 60s** | 4 | 8 | 3,380,034 | 6,239,558 | 6,539,074 | 1.0480 | +4.80% |
-| **Stress-Predict 30s** | 6 | 10 | 4,959,554 | 7,819,078 | 8,118,594 | 1.0383 | +3.83% |
+| **Stress-Predict 60s** | 4 | 8 | 3,380,034 | 6,239,558 | 6,539,074 | 1.0480 | **+4.80%** |
+| **Stress-Predict 30s** | 6 | 10 | 4,959,554 | 7,819,078 | 8,118,594 | 1.0383 | **+3.83%** |
 
-### 2. Experimental Evaluation on WESAD
+### 2. Experimental Evaluation on WESAD and Stress-Predict (Extended Table 7)
 
-The ablation suite evaluates all three models under identical experimental conditions:
-- **Evaluation Protocol:** Strict Leave-One-Subject-Out (LOSO) cross-validation across all 15 WESAD subjects ($S2 \dots S17$).
+The ablation suite evaluates all three models (`Standard`, `Hierarchical`, and `Standard-Matched`) under identical Experiment 1 conditions:
+- **Evaluation Protocol:** Strict Leave-One-Group-Out (LOGO) cross-validation across all 15 WESAD subjects ($n=15$) and all 33 retained Stress-Predict participants ($n=33$, $S02 \dots S35$ excluding $S01, S06$).
 - **Preprocessing:** Per-subject robust normalization (`median` and `IQR`), matching the manuscript's pipeline.
-- **Windowing & Overlap:** 50% overlap (60s window / 30s stride = 1,060 windows; 30s window / 15s stride = 2,164 windows).
-- **Statistics:** Sample standard deviation ($ddof=1$) and 95% Confidence Intervals computed via two-sided Student's $t$-distribution ($n=15$, $\text{df}=14$, $t_{\text{crit}} \approx 2.145$).
+- **Windowing & Overlap:** 50% overlap (60s window / 30s stride; 30s window / 15s stride).
+- **Statistics:** Sample standard deviation ($ddof=1$), 95% Confidence Intervals via two-sided Student's $t$-distribution, and paired subject-level Wilcoxon signed-rank tests ([`ablation_matched_capacity_paired_comparisons.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_paired_comparisons.csv)).
 
 #### WESAD 60-Second Windows ($n=15$ Participants)
 
-Generated by `ablation_matched_capacity/run_ablation.py --window-seconds 60` and stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv):
+Stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_60s.csv):
 
-| Variant | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Standard** | 0.8752 ± 0.1587 | [0.7873, 0.9631] | 0.7746 ± 0.3113 | [0.6022, 0.9470] | 0.8557 ± 0.2026 | [0.7435, 0.9679] | 0.9162 ± 0.1616 | [0.8267, 1.0000] |
-| **Hierarchical** | 0.8602 ± 0.1722 | [0.7649, 0.9556] | 0.7653 ± 0.3159 | [0.5904, 0.9403] | 0.8466 ± 0.2087 | [0.7310, 0.9621] | 0.9098 ± 0.1656 | [0.8180, 1.0000] |
-| **Standard-Matched** | 0.8614 ± 0.1820 | [0.7606, 0.9622] | 0.7430 ± 0.3539 | [0.5470, 0.9390] | 0.8342 ± 0.2351 | [0.7040, 0.9643] | 0.8688 ± 0.2457 | [0.7327, 1.0000] |
+| Variant | Params (Rel. Diff) | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Standard** | 692,034 (-59.97%) | 0.8752 ± 0.1587 | [0.7873, 0.9631] | 0.7746 ± 0.3113 | [0.6022, 0.9470] | 0.8557 ± 0.2026 | [0.7435, 0.9679] | 0.9162 ± 0.1616 | [0.8267, 1.0000] |
+| **Hierarchical** | 1,728,582 (0.00%) | 0.8602 ± 0.1722 | [0.7649, 0.9556] | 0.7653 ± 0.3159 | [0.5904, 0.9403] | 0.8466 ± 0.2087 | [0.7310, 0.9621] | 0.9098 ± 0.1656 | [0.8180, 1.0000] |
+| **Standard-Matched** | 1,683,394 (**-2.61%**) | 0.8614 ± 0.1820 | [0.7606, 0.9622] | 0.7430 ± 0.3539 | [0.5470, 0.9390] | 0.8342 ± 0.2351 | [0.7040, 0.9643] | 0.8688 ± 0.2457 | [0.7327, 1.0000] |
 
 #### WESAD 30-Second Windows ($n=15$ Participants)
 
-Generated by `ablation_matched_capacity/run_ablation.py --window-seconds 30` and stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv):
+Stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_wesad_30s.csv):
 
-| Variant | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Standard** | 0.8661 ± 0.1272 | [0.7957, 0.9365] | 0.7604 ± 0.2639 | [0.6143, 0.9065] | 0.8456 ± 0.1601 | [0.7569, 0.9343] | 0.9004 ± 0.1765 | [0.8026, 0.9982] |
-| **Hierarchical** | 0.8630 ± 0.2203 | [0.7410, 0.9850] | 0.7721 ± 0.3572 | [0.5743, 0.9699] | 0.8624 ± 0.2052 | [0.7487, 0.9761] | 0.8582 ± 0.2882 | [0.6985, 1.0000] |
-| **Standard-Matched** | 0.8678 ± 0.1779 | [0.7692, 0.9664] | 0.7753 ± 0.2993 | [0.6095, 0.9411] | 0.8643 ± 0.1795 | [0.7648, 0.9638] | 0.8798 ± 0.2181 | [0.7589, 1.0000] |
+| Variant | Params (Rel. Diff) | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Standard** | 4,959,554 (-36.57%) | 0.8661 ± 0.1272 | [0.7957, 0.9365] | 0.7604 ± 0.2639 | [0.6143, 0.9065] | 0.8462 ± 0.1718 | [0.7510, 0.9413] | 0.9004 ± 0.1765 | [0.8026, 0.9982] |
+| **Hierarchical** | 7,819,078 (0.00%) | 0.8630 ± 0.2203 | [0.7410, 0.9850] | 0.7721 ± 0.3572 | [0.5743, 0.9699] | 0.8417 ± 0.2582 | [0.6987, 0.9847] | 0.8582 ± 0.2882 | [0.6985, 1.0000] |
+| **Standard-Matched** | 8,118,594 (**+3.83%**) | 0.8678 ± 0.1779 | [0.7692, 0.9664] | 0.7753 ± 0.2993 | [0.6095, 0.9411] | 0.8545 ± 0.1999 | [0.7438, 0.9652] | 0.8798 ± 0.2181 | [0.7589, 1.0000] |
+
+#### Stress-Predict 60-Second Windows ($n=33$ Participants)
+
+Generated by `ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 60` and stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_60s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_60s.csv):
+
+| Variant | Params (Rel. Diff) | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Standard** | 3,380,034 (-45.83%) | 0.8254 ± 0.1644 | [0.7671, 0.8837] | 0.8495 ± 0.1492 | [0.7966, 0.9025] | 0.8231 ± 0.1730 | [0.7618, 0.8845] | 0.9020 ± 0.1537 | [0.8474, 0.9565] |
+| **Hierarchical** | 6,239,558 (0.00%) | 0.8282 ± 0.1724 | [0.7671, 0.8893] | 0.8550 ± 0.1470 | [0.8028, 0.9071] | 0.8226 ± 0.1841 | [0.7573, 0.8879] | 0.8996 ± 0.1548 | [0.8447, 0.9545] |
+| **Standard-Matched** | 6,539,074 (**+4.80%**) | 0.8332 ± 0.1545 | [0.7785, 0.8880] | 0.8579 ± 0.1347 | [0.8101, 0.9056] | 0.8314 ± 0.1644 | [0.7731, 0.8896] | 0.8878 ± 0.1754 | [0.8256, 0.9500] |
+
+#### Stress-Predict 30-Second Windows ($n=33$ Participants)
+
+Generated by `ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 30` and stored in [`results/tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_30s.csv`](results/tables/ablation_matched_capacity/ablation_matched_capacity_results_stress_predict_30s.csv):
+
+| Variant | Params (Rel. Diff) | Accuracy (Mean ± Std) | 95% CI | F1-Score (Mean ± Std) | 95% CI | Balanced Acc (Mean ± Std) | 95% CI | AUROC (Mean ± Std) | 95% CI |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Standard** | 4,959,554 (-36.57%) | 0.8351 ± 0.1508 | [0.7816, 0.8885] | 0.8609 ± 0.1302 | [0.8148, 0.9071] | 0.8307 ± 0.1594 | [0.7741, 0.8872] | 0.9030 ± 0.1478 | [0.8506, 0.9554] |
+| **Hierarchical** | 7,819,078 (0.00%) | 0.8222 ± 0.1581 | [0.7661, 0.8783] | 0.8517 ± 0.1354 | [0.8036, 0.8997] | 0.8163 ± 0.1693 | [0.7563, 0.8763] | 0.8947 ± 0.1561 | [0.8393, 0.9500] |
+| **Standard-Matched** | 8,118,594 (**+3.83%**) | 0.8178 ± 0.1639 | [0.7597, 0.8759] | 0.8447 ± 0.1425 | [0.7942, 0.8952] | 0.8161 ± 0.1742 | [0.7544, 0.8779] | 0.8874 ± 0.1606 | [0.8304, 0.9443] |
 
 ### 3. Key Scientific Conclusions for the Manuscript Revision
 
-1. **Successful Capacity Equalization:**
-   The parameter audit proves that `Standard-Matched` matches `Hierarchical` within **-2.61%** (60s) and **+3.83%** (30s), eliminating capacity imbalance as an uncontrolled variable.
-2. **Causal Attribution Established:**
-   Simply deepening the linear-projection baseline (`Standard-Matched`) does not provide a systematic advantage over `Hierarchical`. In 60s windows, `Hierarchical` achieves higher F1 (0.7653 vs. 0.7430) and AUROC (0.9098 vs. 0.8688) than `Standard-Matched`. In 30s windows, performance remains closely comparable across both models.
-3. **Inductive Bias Confirmed:**
-   These findings confirm that the representations learned by the hierarchical temporal patch encoder stem from its multi-scale architecture (local intra-patch Transformer capturing fine-grained dynamics prior to global cross-patch attention), rather than being an artifact of increased parameter capacity.
+1. **Exact Capacity Parity Reporting:**
+   The parameter audit shows that `Standard-Matched` matches `Hierarchical` with exact relative differences of **-2.61%** (WESAD 60s), **+3.83%** (WESAD 30s and Stress-Predict 30s), and **+4.80%** (Stress-Predict 60s) due to discrete global Transformer layer increments.
+2. **Capacity vs. Architecture on Stress-Predict & WESAD (Experiment 1 Protocol):**
+   - On **Stress-Predict 30s**, scaling parameter count via deeper global layers (`Standard-Matched`, 8.12M) degrades supervised performance compared to the lighter `Standard` baseline (4.96M) across all metrics (F1 drops from 0.8609 to 0.8447, Wilcoxon $p=0.0201$), whereas `Hierarchical` (7.82M) retains slightly higher Accuracy (0.8222 vs. 0.8178), F1 (0.8517 vs. 0.8447), and AUROC (0.8947 vs. 0.8874) than `Standard-Matched` ($p \ge 0.186$).
+   - On **Stress-Predict 60s**, all three models perform within a tight range (F1: 0.8495–0.8579), with no statistically significant difference between `Hierarchical` and `Standard-Matched` ($p \ge 0.307$ across all metrics).
+   - Consequently, under purely supervised within-dataset training from scratch (Experiment 1), increasing parameter capacity does not yield a consistent performance advantage, and the manuscript's discussion in §4.6 is restricted accordingly.
 
 ### 4. Reproduction Commands
 
 To audit parameter counts and rerun the ablation study from scratch:
 
 ```bash
-# 1. Verify parameter parity across all configurations (<4% difference)
+# 1. Verify parameter parity across all configurations
 python ablation_matched_capacity/verify_capacity.py
 
 # 2. Run fast dry-run on synthetic data (3 seconds verification)
 python ablation_matched_capacity/run_ablation.py --dry-run
 
-# 3. Run complete LOSO ablation on WESAD 60s (GPU)
-python ablation_matched_capacity/run_ablation.py --window-seconds 60 --device cuda
+# 3. Run complete LOSO ablation on Stress-Predict 60s and 30s (GPU)
+python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 60 --device cuda
+python ablation_matched_capacity/run_ablation.py --dataset stress_predict --window-seconds 30 --device cuda
 
-# 4. Run complete LOSO ablation on WESAD 30s (GPU)
-python ablation_matched_capacity/run_ablation.py --window-seconds 30 --device cuda
+# 4. Run complete LOSO ablation on WESAD 60s and 30s (GPU)
+python ablation_matched_capacity/run_ablation.py --dataset wesad --window-seconds 60 --device cuda
+python ablation_matched_capacity/run_ablation.py --dataset wesad --window-seconds 30 --device cuda
+
+# 5. Generate Extended Table 7, paired Wilcoxon comparisons, and comparative plots
+python ablation_matched_capacity/generate_deliverables.py
 ```
 
 ## Running the Experiments

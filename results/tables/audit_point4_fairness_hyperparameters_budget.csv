@@ -1,0 +1,5 @@
+Configuracion,Arquitectura,Ventana_s,Sujetos_Train_Dev,Sujetos_Test_Holdout,Splits_Identicos,Trials_Optuna,Objetivo_Seleccion,SSL_Epochs,FT_Epochs,Batch_Size,Optimizer,Parametros_Entrenables,Delta_Parametros_vs_Standard,Pct_Delta_Capacidad,Test_Leakage_Free
+Stress-Predict (30s) - Standard,Standard (PatchEmbed1D),30,28,7,True,5,Validation Macro F1,4,7,16,"AdamW (lr=2e-4, wd=1e-4)",4959554,0,0.00%,True
+Stress-Predict (30s) - Hierarchical,Hierarchical (TimeMAEPatchEmbed),30,28,7,True,5,Validation Macro F1,4,7,16,"AdamW (lr=2e-4, wd=1e-4)",7819078,2859524,+57.66%,True
+Stress-Predict (60s) - Standard,Standard (PatchEmbed1D),60,28,7,True,5,Validation Macro F1,7,6,16,"AdamW (lr=2e-4, wd=1e-4)",3380034,0,0.00%,True
+Stress-Predict (60s) - Hierarchical,Hierarchical (TimeMAEPatchEmbed),60,28,7,True,5,Validation Macro F1,7,6,16,"AdamW (lr=2e-4, wd=1e-4)",6239558,2859524,+84.60%,True
