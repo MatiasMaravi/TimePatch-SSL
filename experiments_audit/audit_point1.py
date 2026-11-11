@@ -315,16 +315,16 @@ def run_audit_point1():
 
     fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
     ax.plot(fpr_orig, tpr_orig, color='#d95f02', lw=2.5,
-            label=f'Curva ROC Original (p_stress) [AUROC = {auroc_original:.4f}]')
+            label=f'Original ROC Curve (p_stress) [AUROC = {auroc_original:.4f}]')
     ax.plot(fpr_inv, tpr_inv, color='#1b9e77', lw=2.5, linestyle='--',
-            label=f'Curva ROC Invertida (1 - p_stress) [AUROC = {auroc_inverted:.4f}]')
-    ax.plot([0, 1], [0, 1], color='gray', lw=1.5, linestyle=':', label='Azar (AUROC = 0.5000)')
+            label=f'Inverted ROC Curve (1 - p_stress) [AUROC = {auroc_inverted:.4f}]')
+    ax.plot([0, 1], [0, 1], color='gray', lw=1.5, linestyle=':', label='Chance Level (AUROC = 0.5000)')
 
     ax.set_xlim([0.0, 1.0])
     ax.set_ylim([0.0, 1.05])
-    ax.set_xlabel('False Positive Rate (1 - Especificidad)', fontsize=12)
-    ax.set_ylabel('True Positive Rate (Sensibilidad / Recall)', fontsize=12)
-    ax.set_title('Auditoría Punto 1: Curva ROC (Stress-Predict → WESAD, Standard 30s)', fontsize=13, fontweight='bold')
+    ax.set_xlabel('False Positive Rate (1 - Specificity)', fontsize=12)
+    ax.set_ylabel('True Positive Rate (Sensitivity / Recall)', fontsize=12)
+    ax.set_title('Point 1 Audit: ROC Curve (Stress-Predict → WESAD, Standard 30s)', fontsize=13, fontweight='bold')
     ax.legend(loc='lower right', fontsize=11, frameon=True, shadow=True)
     ax.grid(True, alpha=0.3)
 

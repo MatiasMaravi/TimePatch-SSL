@@ -428,6 +428,7 @@ def run_audit_point2():
 
     # Generate Figures: Grid of Confusion Matrices
     fig, axes = plt.subplots(3, 4, figsize=(18, 13), dpi=300)
+    fig.suptitle('Confusion Matrices Across 12 Experimental Configurations (Point 2 Audit)', fontsize=15, fontweight='bold', y=0.995)
     axes = axes.flatten()
 
     for idx, (title, cm) in enumerate(cms_dict.items()):
@@ -451,7 +452,7 @@ def run_audit_point2():
                         color="white" if cm[i, j] > thresh else "black",
                         fontsize=9, fontweight='bold')
 
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.98])
     cm_fig_path = os.path.join(FIG_DIR, 'audit_point2_confusion_matrices.png')
     plt.savefig(cm_fig_path)
     plt.close()

@@ -271,6 +271,24 @@ def run_audit_point3():
     df_summary.to_csv(summary_path, index=False)
     print(f"\n[+] Tabla de convergencia guardada en: {summary_path}")
 
+    # Save epoch-by-epoch history
+    history_rows = []
+    for model_name, hist in histories.items():
+        for i in range(len(hist['epoch'])):
+            history_rows.append({
+                'Configuracion': model_name,
+                'epoch': hist['epoch'][i],
+                'train_loss': hist['train_loss'][i],
+                'val_loss': hist['val_loss'][i],
+                'val_f1': hist['val_f1'][i],
+                'val_bacc': hist['val_bacc'][i],
+                'val_acc': hist['val_acc'][i],
+            })
+    df_hist = pd.DataFrame(history_rows)
+    hist_path = os.path.join(TABLE_DIR, 'audit_point3_epoch_history.csv')
+    df_hist.to_csv(hist_path, index=False)
+    print(f"[+] Historial época a época guardado en: {hist_path}")
+
     # Plot Loss Curves
     fig, axes = plt.subplots(1, 2, figsize=(14, 5), dpi=300)
     # 30s
@@ -279,8 +297,8 @@ def run_audit_point3():
     ax.plot(histories['Stress-Predict 30s - Standard']['epoch'], histories['Stress-Predict 30s - Standard']['val_loss'], label='Standard - Val Loss', color='#1f77b4', linestyle='--', lw=2)
     ax.plot(histories['Stress-Predict 30s - Hierarchical']['epoch'], histories['Stress-Predict 30s - Hierarchical']['train_loss'], label='Hierarchical - Train Loss', color='#ff7f0e', lw=2)
     ax.plot(histories['Stress-Predict 30s - Hierarchical']['epoch'], histories['Stress-Predict 30s - Hierarchical']['val_loss'], label='Hierarchical - Val Loss', color='#ff7f0e', linestyle='--', lw=2)
-    ax.set_title('Convergencia de Loss (Stress-Predict, 30 s)', fontsize=12, fontweight='bold')
-    ax.set_xlabel('Época', fontsize=11)
+    ax.set_title('Loss Convergence (Stress-Predict, 30 s)', fontsize=12, fontweight='bold')
+    ax.set_xlabel('Epoch', fontsize=11)
     ax.set_ylabel('Cross-Entropy Loss', fontsize=11)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
@@ -291,8 +309,8 @@ def run_audit_point3():
     ax.plot(histories['Stress-Predict 60s - Standard']['epoch'], histories['Stress-Predict 60s - Standard']['val_loss'], label='Standard - Val Loss', color='#1f77b4', linestyle='--', lw=2)
     ax.plot(histories['Stress-Predict 60s - Hierarchical']['epoch'], histories['Stress-Predict 60s - Hierarchical']['train_loss'], label='Hierarchical - Train Loss', color='#ff7f0e', lw=2)
     ax.plot(histories['Stress-Predict 60s - Hierarchical']['epoch'], histories['Stress-Predict 60s - Hierarchical']['val_loss'], label='Hierarchical - Val Loss', color='#ff7f0e', linestyle='--', lw=2)
-    ax.set_title('Convergencia de Loss (Stress-Predict, 60 s)', fontsize=12, fontweight='bold')
-    ax.set_xlabel('Época', fontsize=11)
+    ax.set_title('Loss Convergence (Stress-Predict, 60 s)', fontsize=12, fontweight='bold')
+    ax.set_xlabel('Epoch', fontsize=11)
     ax.set_ylabel('Cross-Entropy Loss', fontsize=11)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
@@ -311,8 +329,8 @@ def run_audit_point3():
     ax.plot(histories['Stress-Predict 30s - Standard']['epoch'], histories['Stress-Predict 30s - Standard']['val_bacc'], label='Standard - Val Bal Acc', color='#1f77b4', linestyle=':', lw=2)
     ax.plot(histories['Stress-Predict 30s - Hierarchical']['epoch'], histories['Stress-Predict 30s - Hierarchical']['val_f1'], label='Hierarchical - Val F1', color='#ff7f0e', lw=2)
     ax.plot(histories['Stress-Predict 30s - Hierarchical']['epoch'], histories['Stress-Predict 30s - Hierarchical']['val_bacc'], label='Hierarchical - Val Bal Acc', color='#ff7f0e', linestyle=':', lw=2)
-    ax.set_title('Métricas de Validación (Stress-Predict, 30 s)', fontsize=12, fontweight='bold')
-    ax.set_xlabel('Época', fontsize=11)
+    ax.set_title('Validation Metrics (Stress-Predict, 30 s)', fontsize=12, fontweight='bold')
+    ax.set_xlabel('Epoch', fontsize=11)
     ax.set_ylabel('Score', fontsize=11)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
@@ -323,8 +341,8 @@ def run_audit_point3():
     ax.plot(histories['Stress-Predict 60s - Standard']['epoch'], histories['Stress-Predict 60s - Standard']['val_bacc'], label='Standard - Val Bal Acc', color='#1f77b4', linestyle=':', lw=2)
     ax.plot(histories['Stress-Predict 60s - Hierarchical']['epoch'], histories['Stress-Predict 60s - Hierarchical']['val_f1'], label='Hierarchical - Val F1', color='#ff7f0e', lw=2)
     ax.plot(histories['Stress-Predict 60s - Hierarchical']['epoch'], histories['Stress-Predict 60s - Hierarchical']['val_bacc'], label='Hierarchical - Val Bal Acc', color='#ff7f0e', linestyle=':', lw=2)
-    ax.set_title('Métricas de Validación (Stress-Predict, 60 s)', fontsize=12, fontweight='bold')
-    ax.set_xlabel('Época', fontsize=11)
+    ax.set_title('Validation Metrics (Stress-Predict, 60 s)', fontsize=12, fontweight='bold')
+    ax.set_xlabel('Epoch', fontsize=11)
     ax.set_ylabel('Score', fontsize=11)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
