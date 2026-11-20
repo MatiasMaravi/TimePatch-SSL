@@ -20,7 +20,7 @@ class TimeMAEPatchEmbed(nn.Module):
     def forward(self,x):
         T2=(x.shape[1]//self.patch_len)*self.patch_len
         x=self.input_projection(x[:,:T2].transpose(1,2)).transpose(1,2).contiguous()
-        x=x+self.position(x)
+        x=x+self.position(x)[:,:x.size(1),:]
         return self.encoder(x)
 
 class PatchEmbed1D(nn.Module):
